@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<robot name="surgeon_console" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Example: Surgeon Console -->
+    <!-- This example spawns a Surgeon Console -->
+    <!-- The Classic and Si generations share the same surgeon console -->
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/classic/mtm.macro.xacro"/>
+
+    <link name="world"/>
+
+    <xacro:surgeon_console prefix="" parent_link="world" xyz="0 0 0" rpy="0 0 0"/>
+
+</robot>

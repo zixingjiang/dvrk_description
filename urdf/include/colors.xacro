@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<robot include-once="true" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+  <xacro:property name="DaVinciWhite"       value="1.0 1.0 1.0 1"/>
+  <xacro:property name="DaVinciLightGray"   value="0.89804 0.91765 0.92941 1"/>
+  <xacro:property name="DaVinciMedGray"     value="0.64706 0.61961 0.58824 1"/>
+  <xacro:property name="DaVinciDarkGray"    value="0.25098 0.25098 0.25098 1"/>
+  <xacro:property name="DaVinciYellow"      value="0.64706 0.51765 0 1"/>
+  <xacro:property name="DaVinciRed"         value="0.500 0.400 0.400 1"/>
+  <xacro:property name="DaVinciGreen"       value="0.400 0.500 0.400 1"/>
+  <xacro:property name="DaVinciBlue"        value="0.400 0.400 0.500 1"/>
+  <xacro:property name="DaVinciBlack"       value="0.400 0.400 0.400 1"/>
+  <xacro:property name="DaVinciOrange"      value="1 0.55686 0.058824 1"/>
+  <xacro:property name="DaVinciMetallic"    value="0.79608 0.82353 0.93725 1"/>
+
+
+  <material name="DaVinciWhite">        <color rgba="${DaVinciWhite}"/></material>
+  <material name="DaVinciLightGray">    <color rgba="${DaVinciLightGray}"/></material>
+  <material name="DaVinciMedGray">      <color rgba="${DaVinciMedGray}"/></material>
+  <material name="DaVinciDarkGray">     <color rgba="${DaVinciDarkGray}"/></material>
+  <material name="DaVinciRed">          <color rgba="${DaVinciRed}"/></material>
+  <material name="DaVinciGreen">        <color rgba="${DaVinciGreen}"/></material>
+  <material name="DaVinciBlue">         <color rgba="${DaVinciBlue}"/></material>
+  <material name="DaVinciBlack">        <color rgba="${DaVinciBlack}"/></material>
+  <material name="DaVinciOrange">       <color rgba="${DaVinciOrange}"/></material>
+  <material name="DaVinciMetallic">     <color rgba="${DaVinciMetallic}"/></material>
+  <material name="DaVinciYellow">      <color rgba="${DaVinciYellow}"/></material>
+
+</robot>

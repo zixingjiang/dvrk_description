@@ -1,0 +1,5 @@
+.vscode
+.DS_Store
+
+# ignore compiled URDF
+*.urdf

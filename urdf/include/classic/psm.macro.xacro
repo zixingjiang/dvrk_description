@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/colors.xacro"/>
+
+    <!-- Macro for tools can be mounted on the PSM -->
+    <xacro:include filename="$(find dvrk_description)/urdf/include/classic/tool.macro.xacro"/>
+    <xacro:macro name="psm_tool" params="prefix tool parent_link">
+        <!-- 8mm Small Clip Applier -->
+        <xacro:if value="${tool == 'sca_8mm'}">
+            <xacro:tool_sca_8mm prefix="${prefix}" parent_link="${parent_link}"/>
+        </xacro:if>
+        <!-- 8mm Cadiere Forceps -->
+        <xacro:if value="${tool == 'cadiere_8mm'}">
+            <xacro:tool_cadiere_8mm prefix="${prefix}" parent_link="${parent_link}"/>
+        </xacro:if>
+        <!-- 5mm Round Tip Scissors -->
+        <xacro:if value="${tool == 'rts_5mm'}">
+            <xacro:tool_rts_5mm prefix="${prefix}" parent_link="${parent_link}"/>
+        </xacro:if>
+    </xacro:macro>
+
+    <!-- Macro for a complete PSM with tool -->
+    <xacro:macro name="psm" params="prefix color:='DaVinciOrange' tool parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <xacro:psm_arm prefix="${prefix}" color="${color}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+        <xacro:psm_tool prefix="${prefix}" tool="${tool}" parent_link="${prefix}tool_mount_link"/>
+    </xacro:macro>
+
+    <!-- Macro for a PSM arm without tool -->
+    <xacro:macro name="psm_arm" params="prefix color:='DaVinciOrange' parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <!-- PSM arm links -->
+        <link name="${prefix}base_link">
+            <visual>
+                <origin xyz="0 0 0.15240000188350677" rpy="0 0 ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/base.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0.15240000188350677" rpy="0 0 ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/base.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 -0.17016 0.06679300188" rpy="0 0 ${-pi/2}" />
+                <mass value="2.0161" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <link name="${prefix}roll_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/roll.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/roll.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="-0.038769 0 0.041596" rpy="0 0 0" />
+                <mass value="1.4705" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_parallel_back_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/pitch_parallel_back.stl" />
+                </geometry>
+                <material name="DaVinciDarkGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/pitch_parallel_back.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="-0.011651 -0.036241 0" rpy="0 0 0" />
+                <mass value="0.98494" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_parallel_front_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/pitch_parallel_front.stl" />
+                </geometry>
+                <material name="DaVinciDarkGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/pitch_parallel_front.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0.096269 0 0.047551" rpy="0 0 0" />
+                <mass value="0.074425" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_parallel_bottom_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/pitch_parallel_bottom.stl" />
+                </geometry>
+                <material name="DaVinciDarkGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/pitch_parallel_bottom.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0.25683 -0.010348 0" rpy="0 0 0" />
+                <mass value="0.44569" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_parallel_top_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/pitch_parallel_top.stl" />
+                </geometry>
+                <material name="DaVinciDarkGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/pitch_parallel_top.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0.31246 -0.00056566 0" rpy="0 0 0" />
+                <mass value="0.17841" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_parallel_end_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/pitch_parallel_end.stl" />
+                </geometry>
+                <material name="DaVinciDarkGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/pitch_parallel_end.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="-0.0019293 -0.13613 0" rpy="0 0 0" />
+                <mass value="2.091" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <link name="${prefix}tool_mount_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/insertion_tool_adaptor.stl" />
+                </geometry>
+                <material name="${color}"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/insertion_tool_adaptor.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0.0040563 -0.00010934 0.0098616" rpy="0 0 0" />
+                <mass value="0.22491" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <!-- PSM arm joints -->
+        <joint name="${prefix}base_joint" type="fixed">
+            <parent link="${parent_link}"/>
+            <child link="${prefix}base_link"/>
+            <origin rpy="${rpy}" xyz="${xyz}"/>
+        </joint>
+        <joint name="${prefix}roll_joint" type="revolute">
+            <origin xyz="0 0 0.15240000188350677" rpy="${pi/2} ${-pi/2} ${-pi/2}" />
+            <parent link="${prefix}base_link" />
+            <child link="${prefix}roll_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="${-pi/2}" upper="${pi/2}" effort="1000" velocity="10" />
+        </joint>
+        <joint name="${prefix}pitch_joint" type="revolute">
+            <origin xyz="0 0 0.0296" rpy="${-pi/2} -0.29073 0" />
+            <parent link="${prefix}roll_link" />
+            <child link="${prefix}pitch_parallel_back_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-0.93556" upper="0.94249" effort="1000" velocity="10" />
+        </joint>
+        <joint name="${prefix}pitch_front_mimic_joint" type="revolute">
+            <origin xyz="0 0 -0.0664" rpy="${-pi/2} -0.29073 0" />
+            <parent link="${prefix}roll_link" />
+            <child link="${prefix}pitch_parallel_front_link" />
+            <axis xyz="0 0 1" />
+            <mimic joint="${prefix}pitch_joint" multiplier="1"/>
+            <limit lower="-0.93556" upper="0.94249" effort="1000" velocity="10" />
+        </joint>
+        <joint name="${prefix}pitch_bottom_mimic_joint" type="revolute">
+            <origin xyz="0.15 0 0" rpy="0 0 1.8615" />
+            <parent link="${prefix}pitch_parallel_back_link" />
+            <child link="${prefix}pitch_parallel_bottom_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-0.94249" upper="0.93556" effort="1000" velocity="10" />
+            <mimic joint="${prefix}pitch_joint" multiplier="-1"/>
+        </joint>
+        <joint name="${prefix}pitch_top_mimic_joint" type="revolute">
+            <origin xyz="0.18366 0.014121 0" rpy="0 0 1.8615" />
+            <parent link="${prefix}pitch_parallel_back_link" />
+            <child link="${prefix}pitch_parallel_top_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-0.94249" upper="0.93556" effort="1000" velocity="10" />
+            <mimic joint="${prefix}pitch_joint" multiplier="-1"/>
+        </joint>
+        <joint name="${prefix}pitch_end_mimic_joint" type="revolute">
+            <origin xyz="0.516 0 0" rpy="0 0 0" />
+            <parent link="${prefix}pitch_parallel_bottom_link" />
+            <child link="${prefix}pitch_parallel_end_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-0.93556" upper="0.94249" effort="1000" velocity="10" />
+            <mimic joint="${prefix}pitch_joint" multiplier="1"/>
+        </joint>
+        <joint name="${prefix}insertion_joint" type="prismatic">
+            <origin xyz="0.043 -0.28809 0" rpy="1.5708 1.5708 3.1416" />
+            <parent link="${prefix}pitch_parallel_end_link" />
+            <child link="${prefix}tool_mount_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="0" upper="0.24" effort="1000" velocity="1" />
+        </joint>
+        <!-- virtual link indicating RCM pose -->
+        <link name="${prefix}RCM_link">
+            <!-- <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <sphere radius="0.01"/>
+                </geometry>
+                <material name="">
+                    <color rgba="1 0 0 1" />
+                </material>
+            </visual> -->
+        </link>
+        <joint name="${prefix}RCM_joint" type="fixed">
+            <parent link="${prefix}base_link"/>
+            <child link="${prefix}RCM_link"/>
+            <origin xyz="0.4864 0 0.15240000188350677" rpy="0 0 0"/>
+        </joint>
+    </xacro:macro>
+
+</robot>

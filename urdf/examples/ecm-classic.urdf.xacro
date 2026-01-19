@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<robot name="ecm-classic" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Example: ECM Classic -->
+    <!-- This example spawns an Endoscopic Camera Manipulator (Classic generation) -->
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/classic/ecm.macro.xacro"/>
+
+    <link name="world"/>
+    
+    <xacro:ecm
+        prefix=""
+        parent_link="world"
+        xyz="0 0 0" rpy="0 0 0"/>
+
+</robot>

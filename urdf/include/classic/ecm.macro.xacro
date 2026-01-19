@@ -1,0 +1,284 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/colors.xacro"/>
+
+    <!-- Macro for da Vinci Endoscope Camera Manipulator (ecm) -->
+    <xacro:macro name="ecm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <!-- ECM links -->
+        <link name="${prefix}base_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/base.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/base.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="-0.0048227 0 0.068959" rpy="0 0 0" />
+                <mass value="2.6363" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <link name="${prefix}roll_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="${pi} 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/roll.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="${pi} 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/roll.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0.029045 -0.10669" rpy="0 0 0" />
+                <mass value="6.4168" />
+                <inertia ixx="0.00086598" ixy="0" ixz="0" iyy="0.0016561" iyz="0.00015825" izz="0.00085001" />
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_parallel_front_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/pitch_parallel_front.stl" />
+                </geometry>
+                <material name="DaVinciDarkGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/pitch_parallel_front.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="-0.030619 -0.13578 0" rpy="0 0 0" />
+                <mass value="1.6069" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_parallel_bottom_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/pitch_parallel_bottom.stl" />
+                </geometry>
+                <material name="DaVinciDarkGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/pitch_parallel_bottom.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0.14594 -0.026715 -0.00016488" rpy="0 0 0" />
+                <mass value="0.35928" />
+                <inertia ixx="0.00023901" ixy="0.00022767" ixz="0" iyy="0.0030096" iyz="0" izz="0.0029617" />
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_parallel_top_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/pitch_parallel_top.stl" />
+                </geometry>
+                <material name="DaVinciYellow"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/pitch_parallel_top.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0.1702 0 0.0007925" rpy="0 0 0" />
+                <mass value="0.43851" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_parallel_back_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/pitch_parallel_back.stl" />
+                </geometry>
+                <material name="DaVinciYellow"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/pitch_parallel_back.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="-0.032853 -0.14997 -0.0080613" rpy="0 0 0" />
+                <mass value="0.4214" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_parallel_end_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/pitch_parallel_end.stl" />
+                </geometry>
+                <material name="DaVinciDarkGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/pitch_parallel_end.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0.018122 -0.027143 0.00078916" rpy="0 0 0" />
+                <mass value="2.0321" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <link name="${prefix}camera_mount_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/insertion_camera_adaptor.stl" />
+                </geometry>
+                <material name="DaVinciDarkGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/insertion_camera_adaptor.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0.0086165 -0.00079249 -0.047928" rpy="0 0 0" />
+                <mass value="0.23108" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <link name="${prefix}camera_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/camera.stl" />
+                </geometry>
+                <material name="DaVinciMedGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/camera.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 -0.0007925 -0.10732" rpy="0 0 0" />
+                <mass value="1.9074" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+        </link>
+        <!-- ECM joints -->
+        <joint name="${prefix}base_joint" type="fixed">
+            <parent link="${parent_link}"/>
+            <child link="${prefix}base_link"/>
+            <origin rpy="${rpy}" xyz="${xyz}"/>
+        </joint>
+        <joint name="${prefix}roll_joint" type="revolute">
+            <origin xyz="0.0731999999999783 0 0.101460000000185" rpy="${-pi/2} 0 ${pi/2}" />
+            <parent link="${prefix}base_link" />
+            <child link="${prefix}roll_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="${-pi/2}" upper="${pi/2}" effort="1000" velocity="10" />
+        </joint>
+        <joint name="${prefix}pitch_joint" type="revolute">
+            <origin xyz="0 0 -0.199000000000014" rpy="0 ${pi/2} 0" />
+            <parent link="${prefix}roll_link" />
+            <child link="${prefix}pitch_parallel_front_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="${-pi/4}" upper="${pi/2}" effort="1000" velocity="10" />
+        </joint>
+        <joint name="${prefix}pitch_bottom_mimic_joint" type="revolute">
+            <origin xyz="-0.103000865501078 -0.286804989831434 0" rpy="0 0 0" />
+            <parent link="${prefix}pitch_parallel_front_link" />
+            <child link="${prefix}pitch_parallel_bottom_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="${-pi/2}" upper="${pi/4}" effort="1000" velocity="10" />
+            <mimic joint="${prefix}pitch_joint" multiplier="-1"/>
+        </joint>
+        <joint name="${prefix}pitch_top_mimic_joint" type="revolute">
+            <origin xyz="-0.10847228839493 -0.324257434492051 0" rpy="0 0 0" />
+            <parent link="${prefix}pitch_parallel_front_link" />
+            <child link="${prefix}pitch_parallel_top_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="${-pi/2}" upper="${pi/4}" effort="1000" velocity="10" />
+            <mimic joint="${prefix}pitch_joint" multiplier="-1"/>
+        </joint>
+        <joint name="${prefix}pitch_back_mimic_joint" type="revolute">
+            <origin xyz="0 0.00979999999999302 -0.162430000000002" rpy="0 ${pi/2} 0" />
+            <parent link="${prefix}roll_link" />
+            <child link="${prefix}pitch_parallel_back_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="${-pi/4}" upper="${pi/2}" effort="1000" velocity="10" />
+            <mimic joint="${prefix}pitch_joint" multiplier="1"/>
+        </joint>
+        <joint name="${prefix}pitch_end_mimic_joint" type="revolute">
+            <origin xyz="0.340400072983362 -0.000135620545844151 0" rpy="0 0 0" />
+            <parent link="${prefix}pitch_parallel_bottom_link" />
+            <child link="${prefix}pitch_parallel_end_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="${-pi/4}" upper="${pi/2}" effort="1000" velocity="10" />
+            <mimic joint="${prefix}pitch_joint" multiplier="1"/>
+        </joint>
+        <joint name="${prefix}insertion_joint" type="prismatic">
+            <origin xyz="0.042 -0.086143 0" rpy="${-pi/2} 0 0" />
+            <parent link="${prefix}pitch_parallel_end_link" />
+            <child link="${prefix}camera_mount_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="0" upper="0.254193" effort="50" velocity="100" />
+        </joint>
+        <joint name="${prefix}camera_roll_joint" type="revolute">
+            <origin xyz="0.0609999999999996 0 0" rpy="0 0 ${pi}" />
+            <parent link="${prefix}camera_mount_link" />
+            <child link="${prefix}camera_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="${-pi/2}" upper="${pi/2}" effort="1000" velocity="10" />
+        </joint>
+        <!-- virtual RCM frame -->
+        <link name="${prefix}RCM_link">
+            <!-- <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <sphere radius="0.01"/>
+                </geometry>
+                <material name="">
+                    <color rgba="1 0 0 1" />
+                </material>
+            </visual> -->
+        </link>
+        <joint name="${prefix}RCM_joint" type="fixed">
+            <origin xyz="0.612599207482277 0 0.10159534323531" rpy="0 0 ${-pi/2}" />
+            <parent link="${prefix}base_link" />
+            <child link="${prefix}RCM_link" />
+            <axis xyz="0 0 0" />
+        </joint>
+        <!-- tool tip frame -->
+        <link name="${prefix}tip_link"/>
+        <joint name="${prefix}tip_joint" type="fixed">
+            <origin xyz="0 0 0.37364" rpy="0 0 0" />
+            <parent link="${prefix}camera_link" />
+            <child link="${prefix}tip_link" />
+            <axis xyz="0 0 0" />
+        </joint>
+    </xacro:macro>
+
+
+</robot>

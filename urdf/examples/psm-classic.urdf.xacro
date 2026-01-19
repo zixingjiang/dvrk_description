@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<robot name="psm-classic" xmlns:xacro="https://wiki.ros.org/xacro">
+
+    <!-- Example: PSM Classic -->
+    <!-- This example spawns a Patient Side Manipulator (Classic generation) -->
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/classic/psm.macro.xacro"/>
+
+    <link name="world"/>
+
+    <!-- Available tools: 
+        * sca_8mm: 8mm small clip applier, 
+        * cadiere_8mm: 8mm cadiere forceps, 
+        * rts_5mm: 5mm round tip scissors.
+    -->
+
+    <xacro:psm prefix="" tool="sca_8mm" parent_link="world" xyz="0 0 0" rpy="0 0 0"/>
+
+</robot>

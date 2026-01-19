@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<robot name="dvrk-classic" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Example: Patient Cart Classic -->
+    <!-- This example spawns a complete patient cart with three PSMs and an ECM (Classic generation) -->
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/classic/suj.macro.xacro"/>
+    <xacro:include filename="$(find dvrk_description)/urdf/include/classic/ecm.macro.xacro"/>
+    <xacro:include filename="$(find dvrk_description)/urdf/include/classic/psm.macro.xacro"/>
+
+    <link name="world"/>
+
+    <xacro:suj prefix="suj_" parent_link="world" include_ecm="true" include_psm1="true" include_psm2="true" include_psm3="true" xyz="0 0 0" rpy="0 0 0"/>
+
+    <xacro:ecm prefix="ecm_" parent_link="suj_ecm_mount_link"/>
+
+    <xacro:psm prefix="psm1_" tool="rts_5mm" parent_link="suj_psm1_mount_link"/>
+
+    <xacro:psm prefix="psm2_" tool="cadiere_8mm" parent_link="suj_psm2_mount_link"/>
+
+    <xacro:psm prefix="psm3_" tool="sca_8mm" parent_link="suj_psm3_mount_link"/>
+
+</robot>

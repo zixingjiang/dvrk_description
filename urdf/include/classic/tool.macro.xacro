@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/colors.xacro"/>
+
+    <!-- Macro for the 8mm Small Clip Applier (sca) tool -->
+    <xacro:macro name="tool_sca_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <xacro:tool_shaft prefix="${prefix}" diameter="8mm" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+        <xacro:tool_wrist_8mm prefix="${prefix}" parent_link="${prefix}tool_wrist_mount_link"/>
+        <xacro:tool_gripper_sca_8mm prefix="${prefix}" parent_link="${prefix}tool_gripper_mount_link"/>
+    </xacro:macro>
+
+    <!-- Macro for the 8mm Cadiere Forceps (cadiere) tool -->
+    <xacro:macro name="tool_cadiere_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <xacro:tool_shaft prefix="${prefix}" diameter="8mm" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+        <xacro:tool_wrist_8mm prefix="${prefix}" parent_link="${prefix}tool_wrist_mount_link"/>
+        <xacro:tool_gripper_cadiere_8mm prefix="${prefix}" parent_link="${prefix}tool_gripper_mount_link"/>
+    </xacro:macro>
+
+    <!-- Macro for the 5mm Round Tip Scissors (rts) tool -->
+    <xacro:macro name="tool_rts_5mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <xacro:tool_shaft prefix="${prefix}" diameter="5mm" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+        <xacro:tool_wrist_5mm prefix="${prefix}" parent_link="${prefix}tool_wrist_mount_link"/>
+        <xacro:tool_gripper_rts_5mm prefix="${prefix}" parent_link="${prefix}tool_gripper_mount_link"/>
+    </xacro:macro>
+
+
+    <!-- Macro for tool shaft (8mm and 5mm)  -->
+    <xacro:macro name="tool_shaft" params="prefix diameter parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <link name="${prefix}tool_base_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/base.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/base.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}tool_shaft_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/shaft_${diameter}.stl" />
+                </geometry>
+                <material name="DaVinciDarkGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/shaft_${diameter}.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="${prefix}tool_base_joint" type="fixed">
+            <parent link="${parent_link}"/>
+            <child link="${prefix}tool_base_link"/>
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+        </joint>
+        <joint name="${prefix}tool_shaft_joint" type="fixed">
+            <parent link="${prefix}tool_base_link"/>
+            <child link="${prefix}tool_shaft_link"/>
+            <origin xyz="0 0 0.0396" rpy="0 0 0"/>
+        </joint>
+        <!-- virtual wrist mount link -->
+        <link name="${prefix}tool_wrist_mount_link"/>
+        <joint name="${prefix}tool_wrist_mount_joint" type="fixed">
+            <parent link="${prefix}tool_shaft_link"/>
+            <child link="${prefix}tool_wrist_mount_link"/>
+            <origin xyz="0 0 0.3675" rpy="0 0 0"/>
+        </joint>
+    </xacro:macro>
+
+    <!-- Macro for tool wrist (8mm) -->
+    <xacro:macro name="tool_wrist_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <!-- 8mm wrist links -->
+        <link name="${prefix}tool_wrist_roll_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/wrist_8mm/roll.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/wrist_8mm/roll.stl"/>
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}tool_wrist_pitch_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi}"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/wrist_8mm/pitch.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi}"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/wrist_8mm/pitch.stl"/>
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}tool_wrist_yaw_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="${pi} 0 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/wrist_8mm/yaw.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="${pi} 0 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/wrist_8mm/yaw.stl"/>
+                </geometry>
+            </collision>
+        </link>
+        <!-- 8mm wrist joints -->
+        <joint name="${prefix}tool_roll_joint" type="revolute">
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <parent link="${parent_link}"/>
+            <child link="${prefix}tool_wrist_roll_link"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="${-pi}" upper="${pi}" effort="1000" velocity="10"/>
+        </joint>
+        <joint name="${prefix}tool_pitch_joint" type="revolute">
+            <origin xyz="0 0 0.0091" rpy="0 ${-pi/2} 0"/>
+            <parent link="${prefix}tool_wrist_roll_link"/>
+            <child link="${prefix}tool_wrist_pitch_link"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="${-pi/2}" upper="${pi/2}" effort="1000" velocity="10"/>
+        </joint>
+        <joint name="${prefix}tool_yaw_joint" type="revolute">
+            <origin xyz="0.0091 0 0" rpy="${-pi/2} 0 0"/>
+            <parent link="${prefix}tool_wrist_pitch_link"/>
+            <child link="${prefix}tool_wrist_yaw_link"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="${-pi/2}" upper="${pi/2}" effort="1000" velocity="10"/>
+        </joint>
+        <!-- virtual gripper mount link -->
+        <link name="${prefix}tool_gripper_mount_link"/>
+        <joint name="${prefix}tool_gripper_mount_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <parent link="${prefix}tool_wrist_yaw_link"/>
+            <child link="${prefix}tool_gripper_mount_link"/>
+        </joint>
+    </xacro:macro>
+
+
+    <!-- Macro for tool wrist (5mm) -->
+    <xacro:macro name="tool_wrist_5mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <!-- 5mm wrist links -->
+        <link name="${prefix}tool_wrist_roll_link">
+            <visual>
+                <origin xyz="0 0 0.0027" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/wrist_5mm/roll.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+        </link>
+        <link name="${prefix}tool_wrist_pitch1_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="${-pi/2} 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/wrist_5mm/pitch1.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+        </link>
+        <link name="${prefix}tool_wrist_yaw1_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="${-pi/2} 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/wrist_5mm/yaw1.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+        </link>
+        <link name="${prefix}tool_wrist_yaw2_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="${-pi/2} 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/wrist_5mm/yaw2.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+        </link>
+        <link name="${prefix}tool_wrist_pitch2_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/wrist_5mm/pitch2.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+        </link>
+        <!-- 5mm wrist joints -->
+        <joint name="${prefix}tool_roll_joint" type="revolute">
+            <parent link="${parent_link}"/>
+            <child link="${prefix}tool_wrist_roll_link"/>
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="${-pi}" upper="${pi}" effort="1000" velocity="10"/>
+        </joint>
+        <joint name="${prefix}tool_pitch1_joint" type="revolute">
+            <parent link="${prefix}tool_wrist_roll_link"/>
+            <child link="${prefix}tool_wrist_pitch1_link"/>
+            <origin xyz="0 0 0.0027" rpy="0 ${-pi/2} 0"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="${-pi/4}" upper="${pi/4}" effort="1000" velocity="10"/>
+]
+        </joint>
+        <joint name="${prefix}tool_yaw1_joint" type="revolute">
+            <parent link="${prefix}tool_wrist_pitch1_link"/>
+            <child link="${prefix}tool_wrist_yaw1_link"/>
+            <origin xyz="0.0034 0 0" rpy="${-pi/2} 0 0"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="${-pi/4}" upper="${pi/4}" effort="1000" velocity="10"/>
+        </joint>
+        <joint name="${prefix}tool_yaw2_joint" type="revolute">
+            <parent link="${prefix}tool_wrist_yaw1_link"/>
+            <child link="${prefix}tool_wrist_yaw2_link"/>
+            <origin xyz="0.0034 0 0" rpy="0 0 0"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="${-pi/4}" upper="${pi/4}" effort="1000" velocity="10"/>
+        </joint>
+        <joint name="${prefix}tool_pitch2_joint" type="revolute">
+            <parent link="${prefix}tool_wrist_yaw2_link"/>
+            <child link="${prefix}tool_wrist_pitch2_link"/>
+            <origin xyz="0.0034 0 0" rpy="${pi/2} ${-pi/2} 0"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="${-pi/4}" upper="${pi/4}" effort="1000" velocity="10"/>
+        </joint>
+        <!-- virtual gripper mount link -->
+        <link name="${prefix}tool_gripper_mount_link"/>
+        <joint name="${prefix}tool_gripper_mount_joint" type="fixed">
+            <origin xyz="0 -0.0077 0" rpy="0 ${-pi/4} 0"/>
+            <parent link="${prefix}tool_wrist_pitch2_link"/>
+            <child link="${prefix}tool_gripper_mount_link"/>
+        </joint>
+    </xacro:macro>
+
+    <!-- Macro for Small Clip Applier (sca) gripper (8mm) -->
+    <xacro:macro name="tool_gripper_sca_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <!-- sca gripper links -->
+        <link name="${prefix}tool_gripper_root_link"/>
+        <link name="${prefix}tool_gripper1_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 ${pi} ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/gripper_sca_8mm.stl" />
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 ${pi} ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/gripper_sca_8mm.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}tool_gripper2_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 ${pi} ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/gripper_sca_8mm.stl" />
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 ${pi} ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/gripper_sca_8mm.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <!-- sca gripper joints -->
+        <joint name="${prefix}tool_gripper_root_joint" type="fixed">
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <parent link="${parent_link}" />
+            <child link="${prefix}tool_gripper_root_link" />
+        </joint>
+        <joint name="${prefix}tool_jaw_joint" type="revolute">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <parent link="${prefix}tool_gripper_root_link" />
+            <child link="${prefix}tool_gripper1_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="0" upper="1" effort="1000" velocity="10"/>
+        </joint>
+        <joint name="${prefix}tool_jaw_mimic_joint" type="revolute">
+            <origin xyz="0 0 0" rpy="${pi} 0 0" />
+            <parent link="${prefix}tool_gripper_root_link" />
+            <child link="${prefix}tool_gripper2_link" />
+            <axis xyz="0 0 1" />
+            <mimic joint="${prefix}tool_jaw_joint" multiplier="1"/>
+            <limit lower="0" upper="1" effort="1000" velocity="10" />
+        </joint>
+    </xacro:macro>
+
+    <!-- Macro for Cadiere Forceps (cadiere) gripper (8mm) -->
+    <xacro:macro name="tool_gripper_cadiere_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <!-- cadiere gripper links -->
+        <link name="${prefix}tool_gripper_root_link"/>
+        <link name="${prefix}tool_gripper1_link">
+            <visual>
+                <origin xyz="0 0 0.00195" rpy="0 0 ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/gripper_cadiere_8mm.stl" />
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0.00195" rpy="0 0 ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/gripper_cadiere_8mm.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}tool_gripper2_link">
+            <visual>
+                <origin xyz="0 0 0.00195" rpy="0 0 ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/gripper_cadiere_8mm.stl" />
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0.00195" rpy="0 0 ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/gripper_cadiere_8mm.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <!-- cadiere gripper joints -->
+        <joint name="${prefix}tool_gripper_root_joint" type="fixed">
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <parent link="${parent_link}" />
+            <child link="${prefix}tool_gripper_root_link" />
+        </joint>
+        <joint name="${prefix}tool_jaw_joint" type="revolute">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <parent link="${prefix}tool_gripper_root_link" />
+            <child link="${prefix}tool_gripper1_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="0" upper="1" effort="1000" velocity="10"/>
+        </joint>
+        <joint name="${prefix}tool_jaw_mimic_joint" type="revolute">
+            <origin xyz="0 0 0" rpy="${pi} 0 0" />
+            <parent link="${prefix}tool_gripper_root_link" />
+            <child link="${prefix}tool_gripper2_link" />
+            <axis xyz="0 0 1" />
+            <mimic joint="${prefix}tool_jaw_joint" multiplier="1"/>
+            <limit lower="0" upper="1" effort="1000" velocity="10" />
+        </joint>
+    </xacro:macro>
+
+    <!-- Macro for Round Tip Scissors (rts) gripper (5mm) -->
+    <xacro:macro name="tool_gripper_rts_5mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <!-- rts gripper links -->
+        <link name="${prefix}tool_gripper_root_link"/>
+        <link name="${prefix}tool_gripper1_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/gripper_rts_5mm.stl" />
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/gripper_rts_5mm.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}tool_gripper2_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/gripper_rts_5mm.stl" />
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/tool/gripper_rts_5mm.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <!-- rts gripper joints -->
+        <joint name="${prefix}tool_gripper_root_joint" type="fixed">
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <parent link="${parent_link}" />
+            <child link="${prefix}tool_gripper_root_link" />
+        </joint>
+        <joint name="${prefix}tool_jaw_joint" type="revolute">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <parent link="${prefix}tool_gripper_root_link" />
+            <child link="${prefix}tool_gripper1_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="0" upper="1" effort="1000" velocity="10"/>
+        </joint>
+        <joint name="${prefix}tool_jaw_mimic_joint" type="revolute">
+            <origin xyz="0 0 0" rpy="0 ${pi} 0" />
+            <parent link="${prefix}tool_gripper_root_link" />
+            <child link="${prefix}tool_gripper2_link" />
+            <axis xyz="0 0 1" />
+            <mimic joint="${prefix}tool_jaw_joint" multiplier="1"/>
+            <limit lower="0" upper="1" effort="1000" velocity="10" />
+        </joint>
+    </xacro:macro>
+
+</robot>

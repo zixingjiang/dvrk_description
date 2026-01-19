@@ -1,0 +1,428 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/colors.xacro"/>
+
+
+    <!-- Macro for the surgeon console -->
+    <xacro:macro name="surgeon_console" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
+        <link name="${prefix}base_link"/>
+        <joint name="${prefix}base_joint" type="fixed">
+            <parent link="${parent_link}"/>
+            <child link="${prefix}base_link"/>
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+        </joint>
+        <xacro:mtm_left prefix="${prefix}MTML_" parent_link="${prefix}base_link" xyz="0 -0.25 1" />
+        <xacro:mtm_right prefix="${prefix}MTMR_" parent_link="${prefix}base_link" xyz="0 0.25 1" />
+    </xacro:macro>
+
+
+    <!-- Macro for a complete MTM with the left wrist -->
+    <xacro:macro name="mtm_left" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
+        <xacro:mtm_arm prefix="${prefix}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+        <xacro:mtm_wrist_left prefix="${prefix}" parent_link="${prefix}wrist_mount_link"/>
+    </xacro:macro>
+
+
+    <!-- Macro for a complete MTM with the right wrist -->
+    <xacro:macro name="mtm_right" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
+        <xacro:mtm_arm prefix="${prefix}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+        <xacro:mtm_wrist_right prefix="${prefix}" parent_link="${prefix}wrist_mount_link"/>
+    </xacro:macro>
+
+
+    <!-- Macro for MTM arm without wrist -->
+    <xacro:macro name="mtm_arm" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
+        <!-- MTM arm links -->
+        <link name="${prefix}base_link">
+            <visual>
+                <origin xyz="0 0 0.21037" rpy="0 0 ${pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/top_panel.stl"/>
+                </geometry>
+                <material name="DaVinciWhite"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0.21037" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/top_panel.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0.1" rpy="0 0 0"/>
+                <mass value=".9"/>
+                <inertia ixx="9.0" ixy="0.0" ixz="0.0" iyy="9.0" iyz="0.0" izz="9.0"/>
+            </inertial>
+        </link>
+        <link name="${prefix}yaw_link">
+            <visual>
+                <origin rpy="0 0 0" xyz="0.025 0 0.19037"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/yaw.stl"/>
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0.025 0 0.19037"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/yaw.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="1"/>
+                <inertia ixx="10.0" ixy="0.0" ixz="0.0" iyy="10.0" iyz="0.0" izz="10.0"/>
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_shoulder_link">
+            <visual>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/pitch_shoulder.stl"/>
+                </geometry>
+                <material name="DaVinciMedGray"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/pitch_shoulder.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value=".9"/>
+                <inertia ixx="9.0" ixy="0.0" ixz="0.0" iyy="9.0" iyz="0.0" izz="9.0"/>
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_elbow_link">
+            <visual>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/pitch_elbow.stl"/>
+                </geometry>
+                <material name="DaVinciMedGray"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/pitch_elbow.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="0.8"/>
+                <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_elbow_parallel_top_link">
+            <visual>
+                <origin rpy="0 0 ${-pi}" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/pitch_elbow_parallel_top.stl"/>
+                </geometry>
+                <material name="DaVinciMedGray"/>
+            </visual>
+            <collision>
+                <origin rpy="0 0 ${-pi}" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/pitch_elbow_parallel_top.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value=".9"/>
+                <inertia ixx="9.0" ixy="0.0" ixz="0.0" iyy="9.0" iyz="0.0" izz="9.0"/>
+            </inertial>
+        </link>
+        <link name="${prefix}pitch_elbow_parallel_front_link">
+            <visual>
+                <origin rpy="0 0 ${-pi/2}" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/pitch_elbow_parallel_front.stl"/>
+                </geometry>
+                <material name="DaVinciMedGray"/>
+            </visual>
+            <collision>
+                <origin rpy="0 0 ${-pi/2}" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/pitch_elbow_parallel_front.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="0.8"/>
+                <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+            </inertial>
+        </link>
+        <link name="${prefix}wrist_mount_link">
+        </link>
+        <!-- MTM arm joints -->
+        <joint name="${prefix}base_joint" type="fixed">
+            <parent link="${parent_link}"/>
+            <child link="${prefix}base_link"/>
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+        </joint>
+        <joint name="${prefix}yaw_joint" type="revolute">
+            <parent link="${prefix}base_link"/>
+            <child link="${prefix}yaw_link"/>
+            <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+            <axis xyz="0 0 1"/>
+            <limit effort="50.0" lower="${-75/180*pi}" upper="${pi/4}" velocity="2"/>
+            <joint_properties damping="1.0" friction="0.0"/>
+        </joint>
+        <joint name="${prefix}pitch_shoulder_joint" type="revolute">
+            <parent link="${prefix}yaw_link"/>
+            <child link="${prefix}pitch_shoulder_link"/>
+            <origin xyz="0 0 0" rpy="${-pi/2} ${-pi/2} 0"/>
+            <axis xyz="0 0 1"/>
+            <limit effort="100.0" lower="${-pi/4}" upper="${pi/4}" velocity="10"/>
+            <joint_properties damping="1.0" friction="0.0"/>
+        </joint>
+        <joint name="${prefix}pitch_elbow_joint" type="revolute">
+            <parent link="${prefix}pitch_shoulder_link"/>
+            <child link="${prefix}pitch_elbow_link"/>
+            <origin xyz="-0.2794 0 0" rpy="0 0 ${pi/2}"/>
+            <axis xyz="0 0 1"/>
+            <limit effort="100.0" lower="${-pi/4}" upper="${pi/4}" velocity="10"/>
+            <joint_properties damping="1.0" friction="0.0"/>
+        </joint>
+        <joint name="${prefix}pitch_elbow_mimic_top_joint" type="revolute">
+            <parent link="${prefix}pitch_shoulder_link"/>
+            <child link="${prefix}pitch_elbow_parallel_top_link"/>
+            <origin rpy="0 0 ${pi/2}" xyz="0 0 0.065"/>
+            <axis xyz="0 0 1"/>
+            <limit effort="100.0" lower="${-pi/2}" upper="${pi/2}" velocity="10"/>
+            <joint_properties damping="1.0" friction="0.0"/>
+            <mimic joint="${prefix}pitch_elbow_joint" multiplier="1" offset="0"/>
+        </joint>
+        <joint name="${prefix}pitch_elbow_mimic_front_joint" type="revolute">
+            <parent link="${prefix}pitch_elbow_parallel_top_link"/>
+            <child link="${prefix}pitch_elbow_parallel_front_link"/>
+            <origin rpy="0 0 ${-pi/2}" xyz="-0.1 0 -0.03"/>
+            <axis xyz="0 0 1"/>
+            <limit effort="100.0" lower="${-pi/2}" upper="${pi/2}" velocity="10"/>
+            <joint_properties damping="1.0" friction="0.0"/>
+            <mimic joint="${prefix}pitch_elbow_joint" multiplier="-1" offset="0"/>
+        </joint>
+        <joint name="${prefix}wrist_mount_joint" type="fixed">
+            <parent link="${prefix}pitch_elbow_link"/>
+            <child link="${prefix}wrist_mount_link"/>
+            <origin xyz="-0.3645 -0.1506 0" rpy="${pi/2} 0 0"/>
+        </joint>
+    </xacro:macro>
+
+
+    <!-- Macro for MTM left wrist -->
+    <xacro:macro name="mtm_wrist_left" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
+        <!-- MTM wrist left links -->
+        <link name="${prefix}wrist_yaw1_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0 0 ${pi}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_yaw1.stl"/>
+                </geometry>
+                <material name="DaVinciMedGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0 0 ${pi}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_yaw1.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="0.4"/>
+                <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+            </inertial>
+        </link>
+        <link name="${prefix}wrist_pitch_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 ${pi} 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_pitch.stl"/>
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 ${pi} 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_pitch.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="0.2"/>
+                <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+            </inertial>
+        </link>
+        <link name="${prefix}wrist_yaw2_link">
+            <visual>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_yaw2.stl"/>
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_yaw2.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="0.2"/>
+                <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+            </inertial>
+        </link>
+        <link name="${prefix}wrist_roll_link">
+            <visual>
+                <origin xyz="0 0 0.039" rpy="${pi} 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_roll.stl"/>
+                </geometry>
+                <material name="DaVinciRed"/>
+            </visual>
+            <collision>
+                <origin rpy="${pi} 0 0" xyz="0 0 0.039"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_roll.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="0.1"/>
+                <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+            </inertial>
+        </link>
+        <!-- MTM wrist left joints -->
+        <joint name="${prefix}wrist_yaw1_joint" type="revolute">
+            <parent link="${parent_link}"/>
+            <child link="${prefix}wrist_yaw1_link"/>
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <axis xyz="0 0 1"/>
+            <limit effort="100.0" lower="${-60/180*pi}" upper="${245/180*pi}" velocity="10"/>
+            <joint_properties damping="1.0" friction="0.0"/>
+        </joint>
+        <joint name="${prefix}wrist_pitch_joint" type="revolute">
+            <parent link="${prefix}wrist_yaw1_link"/>
+            <child link="${prefix}wrist_pitch_link"/>
+            <origin xyz="0 0 0" rpy="${-pi/2} 0 0"/>
+            <axis xyz="0 0 1"/>
+            <limit effort="100.0" lower="${-pi/2}" upper="${pi}" velocity="10"/>
+            <joint_properties damping="1.0" friction="0.0"/>
+        </joint>
+        <joint name="${prefix}wrist_yaw2_joint" type="revolute">
+            <parent link="${prefix}wrist_pitch_link"/>
+            <child link="${prefix}wrist_yaw2_link"/>
+            <origin rpy="${pi/2} ${-pi/2} 0" xyz="0 0 0"/>
+            <axis xyz="0 0 1"/>
+            <limit effort="100.0" lower="${-pi/4}" upper="${pi/4}" velocity="10"/>
+            <joint_properties damping="1.0" friction="0.0"/>
+        </joint>
+        <joint name="${prefix}wrist_roll_joint" type="revolute">
+            <parent link="${prefix}wrist_yaw2_link"/>
+            <child link="${prefix}wrist_roll_link"/>
+            <origin rpy="0 ${-pi/2} ${pi/2}" xyz="0 0 0"/>
+            <axis xyz="0 0 1"/>
+            <limit effort="100.0" lower="${-1.5*pi}" upper="${1.5*pi}" velocity="10"/>
+            <joint_properties damping="1.0" friction="0.0"/>
+        </joint>
+    </xacro:macro>
+
+
+    <!-- Macro for MTM right wrist -->
+    <xacro:macro name="mtm_wrist_right" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
+        <!-- MTM wrist right links -->
+        <link name="${prefix}wrist_yaw1_link">
+            <visual>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_yaw1.stl"/>
+                </geometry>
+                <material name="DaVinciMedGray"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_yaw1.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="0.4"/>
+                <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+            </inertial>
+        </link>
+        <link name="${prefix}wrist_pitch_link">
+            <visual>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_pitch.stl"/>
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_pitch.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="0.2"/>
+                <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+            </inertial>
+        </link>
+        <link name="${prefix}wrist_yaw2_link">
+            <visual>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_yaw2.stl"/>
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_yaw2.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="0.2"/>
+                <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+            </inertial>
+        </link>
+        <link name="${prefix}wrist_roll_link">
+            <visual>
+                <origin xyz="0 0 0.039" rpy="${pi} 0 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_roll.stl"/>
+                </geometry>
+                <material name="DaVinciRed"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0.039" rpy="${pi} 0 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/classic/mtm/wrist_roll.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="0.1"/>
+                <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+            </inertial>
+        </link>
+        <!-- MTM wrist right joints -->
+        <joint name="${prefix}wrist_yaw1_joint" type="revolute">
+            <parent link="${parent_link}"/>
+            <child link="${prefix}wrist_yaw1_link"/>
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <axis xyz="0 0 1"/>
+            <limit effort="100.0" lower="${-60/180*pi}" upper="${245/180*pi}" velocity="10"/>
+            <joint_properties damping="1.0" friction="0.0"/>
+        </joint>
+        <joint name="${prefix}wrist_pitch_joint" type="revolute">
+            <parent link="${prefix}wrist_yaw1_link"/>
+            <child link="${prefix}wrist_pitch_link"/>
+            <origin xyz="0 0 0" rpy="${-pi/2} 0 0"/>
+            <axis xyz="0 0 1"/>
+            <limit effort="100.0" lower="${-pi/2}" upper="${pi}" velocity="10"/>
+            <joint_properties damping="1.0" friction="0.0"/>
+        </joint>
+        <joint name="${prefix}wrist_yaw2_joint" type="revolute">
+            <parent link="${prefix}wrist_pitch_link"/>
+            <child link="${prefix}wrist_yaw2_link"/>
+            <origin rpy="${pi/2} ${-pi/2} 0" xyz="0 0 0"/>
+            <axis xyz="0 0 1"/>
+            <limit effort="100.0" lower="${-pi/4}" upper="${pi/4}" velocity="10"/>
+            <joint_properties damping="1.0" friction="0.0"/>
+        </joint>
+        <joint name="${prefix}wrist_roll_joint" type="revolute">
+            <parent link="${prefix}wrist_yaw2_link"/>
+            <child link="${prefix}wrist_roll_link"/>
+            <origin rpy="0 ${-pi/2} ${pi/2}" xyz="0 0 0"/>
+            <axis xyz="0 0 1"/>
+            <limit effort="100.0" lower="${-1.5*pi}" upper="${1.5*pi}" velocity="10"/>
+            <joint_properties damping="1.0" friction="0.0"/>
+        </joint>
+    </xacro:macro>
+
+
+</robot>
