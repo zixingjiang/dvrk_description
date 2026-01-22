@@ -265,7 +265,7 @@
             </visual> -->
         </link>
         <joint name="${prefix}RCM_joint" type="fixed">
-            <origin xyz="0.612599207482277 0 0.10159534323531" rpy="0 0 ${-pi/2}" />
+            <origin xyz="0.612599207482277 0 0.10159534323531" rpy="0 0 0" />
             <parent link="${prefix}base_link" />
             <child link="${prefix}RCM_link" />
             <axis xyz="0 0 0" />
