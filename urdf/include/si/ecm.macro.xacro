@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/colors.xacro"/>
+    <xacro:include filename="$(find dvrk_description)/urdf/include/si/psm.macro.xacro"/>
+
+
+    <!-- Macro for an ECM -->
+    <xacro:macro name="ecm" params="prefix show_RCM:='false' parent_link xyz:='0 0 0' rpy:= '0 0 0'">
+        <xacro:psm_ecm_body
+            prefix='${prefix}'
+            show_RCM='${show_RCM}'
+            parent_link='${parent_link}'
+            xyz='${xyz}'
+            rpy='${rpy}'/>
+        <link name='${prefix}insertion_link'>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/psm_ecm/insertion_ecm.stl"/>
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/psm_ecm/insertion_ecm.stl"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="0.46526"/>
+                <origin xyz="0.00016296 -0.058844 0.0" rpy="0 0 0"/>
+                <inertia ixx="0.00020925" ixy="1.7636E-07" ixz="0.0" iyy="0.00043221" iyz="0.0" izz="0.00043221" />
+            </inertial>
+        </link>
+        <link name="${prefix}endoscope_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/psm_ecm/endoscope.stl"/>
+                </geometry>
+                <material name="DaVinciDarkGray"/>
+            </visual>
+        </link>
+        <joint name='${prefix}insertion_joint' type='prismatic'>
+            <parent link='${prefix}pitch3_link'/>
+            <child link='${prefix}insertion_link'/>
+            <origin xyz='${-0.41911+0.1249} -0.05061 0' rpy='0 ${pi/2} 0'/>
+            <axis xyz='0 0 1'/>
+            <limit lower='0.0' upper='0.2987' effort='10' velocity='0.02'/>
+        </joint>
+        <joint name='${prefix}endoscope_joint' type='revolute'>
+            <parent link='${prefix}insertion_link'/>
+            <child link='${prefix}endoscope_link'/>
+            <origin xyz='0 ${-0.05591} 0' rpy='0 0 ${pi}'/>
+            <axis xyz='0 0 1'/>
+            <limit lower='${-pi}' upper='${pi}' effort='10' velocity='1.0'/>
+        </joint>
+    </xacro:macro>
+
+</robot>

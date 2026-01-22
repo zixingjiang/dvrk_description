@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<robot name="dvrk-si" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Example: Patient Cart Si -->
+    <!-- This example spawns a complete patient cart with three PSMs and an ECM (Si generation) -->
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/si/suj.macro.xacro"/>
+    <xacro:include filename="$(find dvrk_description)/urdf/include/si/ecm.macro.xacro"/>
+    <xacro:include filename="$(find dvrk_description)/urdf/include/si/psm.macro.xacro"/>
+
+    <link name="world"/>
+    
+    <xacro:suj
+        prefix="suj_"
+        parent_link="world"
+        include_ecm="true"
+        include_psm1="true"
+        include_psm2="true"
+        include_psm3="true"
+        xyz="0 0 0" 
+        rpy="0 0 0"/>
+    
+
+    <xacro:ecm
+      prefix="ecm_"
+      parent_link="suj_ecm_mount_link"/>
+
+    <xacro:psm
+      prefix="psm1_"
+      tool="lnd_8mm"
+      parent_link="suj_psm1_mount_link"/>
+
+    <xacro:psm
+      prefix="psm2_"
+      tool="lnd_8mm"
+      parent_link="suj_psm2_mount_link"/>
+
+    <xacro:psm
+      prefix="psm3_"
+      tool="lnd_8mm"
+      parent_link="suj_psm3_mount_link"/>
+
+
+</robot>

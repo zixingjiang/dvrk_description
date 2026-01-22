@@ -1,0 +1,431 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/colors.xacro"/>
+
+    <!-- Macro for the complete SUJ -->
+    <xacro:macro name='suj' params="prefix include_ecm:=false include_psm1:=false include_psm2:=false include_psm3:=false parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <xacro:suj_tower prefix="${prefix}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+        <xacro:if value="${include_ecm}">
+            <xacro:suj_arm type="ecm" prefix="${prefix}ecm_" parent_link="${prefix}suj_arm_ecm_mount_link"/>
+        </xacro:if>
+        <xacro:if value="${include_psm1}">
+            <xacro:suj_arm type="psm1" prefix="${prefix}psm1_" parent_link="${prefix}suj_arm_psm1_mount_link"/>
+        </xacro:if>
+        <xacro:if value="${include_psm2}">
+            <xacro:suj_arm type="psm2" prefix="${prefix}psm2_" parent_link="${prefix}suj_arm_psm2_mount_link"/>
+        </xacro:if>
+        <xacro:if value="${include_psm3}">
+            <xacro:suj_arm type="psm3" prefix="${prefix}psm3_" parent_link="${prefix}suj_arm_psm3_mount_link"/>
+        </xacro:if>
+    </xacro:macro>
+
+    <!-- Macro for the SUJ tower -->
+    <xacro:macro name='suj_tower' params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <link name="${prefix}base_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/base.stl" />
+                </geometry>
+                <material name="DaVinciMedGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/base.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}tower_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/tower.stl" />
+                </geometry>
+                <material name="DaVinciMedGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/tower.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="-1.969E-09 2.3996E-09 0.80012" rpy="0 0 0" />
+                <mass value="71.07" />
+                <inertia ixx="16.038" ixy="-5.7683E-10" ixz="8.3859E-08" iyy="16.017" iyz="-1.008E-07" izz="0.56653" />
+            </inertial>
+        </link>
+        <link name="${prefix}suj_arm_ecm_mount_link"/>
+        <link name="${prefix}suj_arm_psm1_mount_link"/>
+        <link name="${prefix}suj_arm_psm2_mount_link"/>
+        <link name="${prefix}suj_arm_psm3_mount_link"/>
+        <joint name="${prefix}base_joint" type="fixed">
+            <parent link="${parent_link}"/>
+            <child link="${prefix}base_link"/>
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+        </joint>
+        <joint name="${prefix}tower_joint" type="fixed">
+            <parent link="${prefix}base_link"/>
+            <child link="${prefix}tower_link"/>
+            <origin xyz="0 0 0.153" rpy="0 0 0"/>
+        </joint>
+        <joint name="${prefix}suj_arm_ecm_mount_joint" type="fixed">
+            <parent link="${prefix}tower_link"/>
+            <child link="${prefix}suj_arm_ecm_mount_link"/>
+            <origin xyz="0.223 0.0 0.528" rpy="0 0 0"/>
+        </joint>
+        <joint name="${prefix}suj_arm_psm1_mount_joint" type="fixed">
+            <parent link="${prefix}tower_link"/>
+            <child link="${prefix}suj_arm_psm1_mount_link"/>
+            <origin xyz="0.0 0.228 0.528" rpy="0 0 ${pi/2}"/>
+        </joint>
+        <joint name="${prefix}suj_arm_psm2_mount_joint" type="fixed">
+            <parent link="${prefix}tower_link"/>
+            <child link="${prefix}suj_arm_psm2_mount_link"/>
+            <origin xyz="0.0 -0.228 0.528" rpy="0 0 ${-pi/2}"/>
+        </joint>
+        <joint name="${prefix}suj_arm_psm3_mount_joint" type="fixed">
+            <parent link="${prefix}tower_link"/>
+            <child link="${prefix}suj_arm_psm3_mount_link"/>
+            <origin xyz="-0.223 0.0 0.528" rpy="0 0 ${-pi}"/>
+        </joint>
+    </xacro:macro>
+
+
+    <!-- Macro for the SUJ arm -->
+    <xacro:macro name='suj_arm' params="prefix type parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <!-- ECM -->
+        <xacro:if value="${type == 'ecm'}">
+            <xacro:suj_arm_ecm prefix="${prefix}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+        </xacro:if>
+        <!-- PSM1 or PSM2 -->
+        <xacro:if value="${type == 'psm1' or type == 'psm2'}">
+            <xacro:suj_arm_psm12 prefix="${prefix}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+        </xacro:if>
+        <!-- PSM3 -->
+        <xacro:if value="${type == 'psm3'}">
+            <xacro:suj_arm_psm3 prefix="${prefix}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+        </xacro:if>
+    </xacro:macro>
+
+
+    <!-- Macro for the SUJ arm for mounting the ECM -->
+    <xacro:macro name='suj_arm_ecm' params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <link name="${prefix}lift_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/lift_ecm.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/lift_ecm.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}yaw1_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw1_ecm.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw1_ecm.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}yaw2_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw2_ecm.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw2_ecm.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}yaw3_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw3_ecm.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw3_ecm.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}mount_link"/>
+        <joint name="${prefix}lift_joint" type="prismatic">
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <parent link="${parent_link}" />
+            <child link="${prefix}lift_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="0.0" upper="0.512" effort="50" velocity="0.05"/>
+        </joint>
+        <joint name="${prefix}yaw1_joint" type="revolute">
+            <origin xyz="-0.025 0 0.5232" rpy="0 0 0" />
+            <parent link="${prefix}lift_link" />
+            <child link="${prefix}yaw1_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-${pi/2}" upper="${pi/2}" effort="50" velocity="0.05"/>
+        </joint>
+        <joint name="${prefix}yaw2_joint" type="revolute">
+            <origin xyz="0.3302 0 0.1313" rpy="0 0 0" />
+            <parent link="${prefix}yaw1_link" />
+            <child link="${prefix}yaw2_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-${pi}" upper="${pi}" effort="50" velocity="0.05"/>
+        </joint>
+        <joint name="${prefix}yaw3_joint" type="revolute">
+            <origin xyz="0.3302 0 0.064" rpy="0 0 0" />
+            <parent link="${prefix}yaw2_link" />
+            <child link="${prefix}yaw3_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-${pi}" upper="${pi}" effort="50" velocity="0.05"/>
+        </joint>
+        <joint name="${prefix}mount_joint" type="fixed">
+            <origin xyz="0.12857 0 -0.0109" rpy="0 1.2217 0" />
+            <parent link="${prefix}yaw3_link" />
+            <child link="${prefix}mount_link" />
+        </joint>
+    </xacro:macro>
+
+
+    <!-- Macro for the SUJ arm for mounting the PSM1 and PSM2 -->
+    <xacro:macro name='suj_arm_psm12' params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <link name="${prefix}lift_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/lift_psm12.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/lift_psm12.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}yaw1_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw1_psm12.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw1_psm12.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}yaw2_link">
+            <visual>
+                <origin xyz="0 0 0.0675" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw2_psm.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0.0675" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw2_psm.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}yaw3_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw3_psm12.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw3_psm12.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}mount_link"/>
+        <joint name="${prefix}lift_joint" type="prismatic">
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <parent link="${parent_link}" />
+            <child link="${prefix}lift_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="0.0" upper="0.512" effort="50" velocity="0.05"/>
+        </joint>
+        <joint name="${prefix}yaw1_joint" type="revolute">
+            <origin xyz="-0.025 0 0.59" rpy="0 0 0" />
+            <parent link="${prefix}lift_link" />
+            <child link="${prefix}yaw1_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-${pi/2}" upper="${pi/2}" effort="50" velocity="0.05"/>
+        </joint>
+        <joint name="${prefix}yaw2_joint" type="revolute">
+            <origin xyz="0.4575 0 0.144" rpy="0 0 0" />
+            <parent link="${prefix}yaw1_link" />
+            <child link="${prefix}yaw2_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-${pi}" upper="${pi}" effort="50" velocity="0.05"/>
+        </joint>
+        <joint name="${prefix}yaw3_joint" type="revolute">
+            <origin xyz="0.458 0 -0.01875" rpy="0 0 0" />
+            <parent link="${prefix}yaw2_link" />
+            <child link="${prefix}yaw3_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-${pi}" upper="${pi}" effort="50" velocity="0.05"/>
+        </joint>
+        <joint name="${prefix}mount_joint" type="fixed">
+            <origin xyz="0.045255 0 -0.045255" rpy="0 0.7854 0" />
+            <parent link="${prefix}yaw3_link" />
+            <child link="${prefix}mount_link" />
+        </joint>
+    </xacro:macro>
+
+    <!-- Macro for the SUJ arm for mounting the PSM3 -->
+    <xacro:macro name='suj_arm_psm3' params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <link name="${prefix}lift_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/lift_psm3.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/lift_psm3.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}yaw0_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw0_psm3.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw0_psm3.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}yaw1_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="${pi} 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw1_psm3.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="${pi} 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw1_psm3.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}yaw2_link">
+            <visual>
+                <origin xyz="0 0 0.0675" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw2_psm.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0.0675" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw2_psm.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}yaw3_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw3_psm3.stl" />
+                </geometry>
+                <material name="DaVinciLightGray"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/suj/yaw3_psm3.stl" />
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}mount_link"/>
+        <joint name="${prefix}lift_joint" type="prismatic">
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <parent link="${parent_link}" />
+            <child link="${prefix}lift_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="0.0" upper="0.512" effort="50" velocity="0.05"/>
+        </joint>
+        <joint name="${prefix}yaw0_joint" type="revolute">
+            <origin xyz="-0.025 0 0.513" rpy="0 0 0" />
+            <parent link="${prefix}lift_link" />
+            <child link="${prefix}yaw0_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-${pi/2}" upper="${pi/2}" effort="50" velocity="0.05"/>
+        </joint>
+        <joint name="${prefix}yaw1_joint" type="revolute">
+            <origin xyz="0.3429 0 -0.1942" rpy="0 0 0" />
+            <parent link="${prefix}yaw0_link" />
+            <child link="${prefix}yaw1_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-${pi}" upper="${pi}" effort="50" velocity="0.05"/>
+        </joint>
+        <joint name="${prefix}yaw2_joint" type="revolute">
+            <origin xyz="0.4575 0 0.0722" rpy="0 0 0" />
+            <parent link="${prefix}yaw1_link" />
+            <child link="${prefix}yaw2_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-${pi}" upper="${pi}" effort="50" velocity="0.05"/>
+        </joint>
+        <joint name="${prefix}yaw3_joint" type="revolute">
+            <origin xyz="0.458 0 -0.01875" rpy="0 0 0" />
+            <parent link="${prefix}yaw2_link" />
+            <child link="${prefix}yaw3_link" />
+            <axis xyz="0 0 1" />
+            <limit lower="-${pi}" upper="${pi}" effort="50" velocity="0.05"/>
+        </joint>
+        <joint name="${prefix}mount_joint" type="fixed">
+            <origin xyz="0.045255 0 -0.11671" rpy="0 0.2618 0" />
+            <parent link="${prefix}yaw3_link" />
+            <child link="${prefix}mount_link" />
+        </joint>
+    </xacro:macro>
+
+</robot>

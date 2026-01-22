@@ -1,0 +1,214 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/colors.xacro"/>
+
+    <!-- Macro for a tool -->
+    <xacro:macro name="tool" params="prefix tool parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <!-- camera -->
+        <xacro:if value="${tool == 'camera'}">
+        </xacro:if>
+        <!-- large needle driver -->
+        <xacro:if value="${tool == 'lnd_8mm'}">
+        </xacro:if>        
+    </xacro:macro>
+
+    <!-- Macro for camera -->
+    <xacro:macro name="tool_camera" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <link name="${prefix}tool_base_link"/>
+        <link name="${prefix}tool_camera_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/tool/camera.stl"/>
+                </geometry>
+                <material name="DaVinciDarkGray"/>
+            </visual>
+        </link>
+        <joint name="${prefix}tool_base_joint" type="fixed">
+            <parent link="${parent_link}"/>
+            <child link="${prefix}tool_base_link"/>
+            <origin xyz="${xyz}" rpy="${rpy}"/>        
+        </joint>
+        <joint name="${prefix}tool_camera_joint" type="fixed">
+            <parent link="${prefix}tool_base_link"/>
+            <child link="${prefix}tool_camera_link"/>
+            <origin xyz="0 ${-0.05591+0.0267} 0" rpy="0 0 0"/>
+        </joint>
+    </xacro:macro>
+
+
+    <!-- Macro for 8mm large needle driver -->
+    <xacro:macro name="tool_lnd_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <xacro:tool_shaft 
+            prefix="${prefix}" 
+            parent_link="${parent_link}" 
+            xyz="${xyz}" 
+            rpy="${rpy}"/>
+        <xacro:tool_wrist_8mm 
+            prefix="${prefix}" 
+            parent_link="${prefix}tool_wrist_mount_link"/>
+        <xacro:tool_gripper_lnd_8mm 
+            prefix="${prefix}" 
+            parent_link="${prefix}tool_gripper_mount_link"/>                                                                                                                                                                                                                  
+    </xacro:macro>
+
+    <!-- Macro for tool shaft -->
+    <xacro:macro name="tool_shaft" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <link name="${prefix}tool_base_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/tool/base.stl"/>
+                </geometry>
+                <material name="DaVinciLightBlue"/>
+            </visual>
+        </link>
+        <link name="${prefix}tool_shaft_link">
+            <visual>                                                                                        
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/tool/shaft_8mm.stl"/>
+                </geometry>
+                <material name="DaVinciDarkGray"/>
+            </visual>
+        </link>
+        <joint name="${prefix}tool_base_joint" type="fixed">
+            <parent link="${parent_link}"/>
+            <child link="${prefix}tool_base_link"/>
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+        </joint>
+        <joint name="${prefix}tool_shaft_joint" type="fixed">
+            <parent link="${prefix}tool_base_link"/>
+            <child link="${prefix}tool_shaft_link"/>
+            <origin xyz="0 -0.02921 0.04388" rpy="0 0 0"/>
+        </joint>
+        <!-- virtual wrist mount link -->
+        <link name="${prefix}tool_wrist_mount_link"/>
+        <joint name="${prefix}tool_wrist_mount_joint" type="fixed">
+            <parent link="${prefix}tool_shaft_link"/>
+            <child link="${prefix}tool_wrist_mount_link"/>
+            <origin xyz="0 0 0.36688" rpy="0 0 0"/>
+        </joint>
+    </xacro:macro>
+
+    <!-- Macro for tool wrist (8mm) -->
+    <xacro:macro name="tool_wrist_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <!-- 8mm wrist links -->
+        <link name="${prefix}tool_wrist_roll_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/tool/wrist_8mm/roll.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+        </link>
+        <link name="${prefix}tool_wrist_pitch_shaft_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/tool/wrist_8mm/pitch_shaft.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+        </link>
+        <link name="${prefix}tool_wrist_pitch_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/tool/wrist_8mm/pitch.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+        </link>
+        <link name="${prefix}tool_wrist_yaw_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 ${pi/2} 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/tool/wrist_8mm/yaw.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+        </link>
+        <!-- 8mm wrist joints -->
+        <joint name="${prefix}tool_roll_joint" type="revolute">
+            <parent link="${prefix}tool_wrist_mount_link"/>
+            <child link="${prefix}tool_wrist_roll_link"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="${-pi}" upper="${pi}" effort="5" velocity="1"/>
+        </joint>
+        <joint name="${prefix}tool_pitch_shaft_joint" type="fixed">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+            <parent link="${prefix}tool_wrist_roll_link"/>
+            <child link="${prefix}tool_wrist_pitch_shaft_link"/>
+            <origin xyz="0 0 0.009" rpy="0 0 0"/>
+        </joint>
+        <joint name="${prefix}tool_pitch_joint" type="revolute">
+            <parent link="${prefix}tool_wrist_pitch_shaft_link"/>
+            <child link="${prefix}tool_wrist_pitch_link"/>
+            <origin xyz="0 0 0" rpy="0 ${-pi/2} 0"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="${-pi/2}" upper="${pi/2}" effort="5" velocity="1"/>
+        </joint>
+        <joint name="${prefix}tool_yaw_joint" type="revolute">
+            <parent link="${prefix}tool_wrist_pitch_link"/>
+            <child link="${prefix}tool_wrist_yaw_link"/>
+            <origin xyz="0.0086973 0 0" rpy="${-pi/2} 0 0"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="${-pi/2}" upper="${pi/2}" effort="5" velocity="1"/>
+        </joint>   
+        <!-- virtual gripper mount link -->
+        <link name="${prefix}tool_gripper_mount_link"/>
+        <joint name="${prefix}tool_gripper_mount_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <parent link="${prefix}tool_wrist_yaw_link"/>
+            <child link="${prefix}tool_gripper_mount_link"/>
+        </joint>
+    </xacro:macro>
+
+    <!-- Macro for Large Needle Driver (lnd) gripper (8mm) -->
+    <xacro:macro name="tool_gripper_lnd_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <!-- lnd gripper links -->
+        <link name="${prefix}tool_gripper_root_link"/>
+        <link name="${prefix}tool_gripper1_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="${pi} ${-pi/2} 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/tool/gripper_lnd_8mm.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+        </link>
+        <link name="${prefix}tool_gripper2_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="${pi} ${-pi/2} 0"/>
+                <geometry>
+                    <mesh filename="package://dvrk_description/meshes/si/tool/gripper_lnd_8mm.stl"/>
+                </geometry>
+                <material name="DaVinciMetallic"/>
+            </visual>
+        </link>
+        <joint name="${prefix}tool_gripper_root_joint" type="fixed">
+            <parent link="${parent_link}"/>
+            <child link="${prefix}tool_gripper_root_link"/>
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+        </joint>
+        <joint name="${prefix}tool_gripper1_joint" type="revolute">
+            <parent link="${prefix}tool_gripper_root_link"/>
+            <child link="${prefix}tool_gripper1_link"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="0" upper="1" effort="5" velocity="1"/>
+        </joint>    
+        <joint name="${prefix}tool_gripper2_mimic_joint" type="revolute">
+            <parent link="${parent_link}"/>
+            <child link="${prefix}tool_gripper2_link"/>
+            <origin xyz="${xyz}" rpy="${pi} 0 0"/>
+            <axis xyz="0 0 1"/>
+            <mimic joint="${prefix}tool_gripper1_joint" multiplier="1"/>
+            <limit lower="0" upper="1" effort="5" velocity="1"/>
+        </joint>
+    </xacro:macro>
+
+</robot>

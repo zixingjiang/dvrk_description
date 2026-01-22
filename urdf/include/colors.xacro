@@ -14,6 +14,8 @@
   <xacro:property name="DaVinciOrange"      value="1 0.55686 0.058824 1"/>
   <xacro:property name="DaVinciMetallic"    value="0.79608 0.82353 0.93725 1"/>
 
+  <xacro:property name="DaVinciLightBlue"   value="0.31640625 0.6875 0.86328125 1"/>
+
 
   <material name="DaVinciWhite">        <color rgba="${DaVinciWhite}"/></material>
   <material name="DaVinciLightGray">    <color rgba="${DaVinciLightGray}"/></material>
@@ -26,5 +28,7 @@
   <material name="DaVinciOrange">       <color rgba="${DaVinciOrange}"/></material>
   <material name="DaVinciMetallic">     <color rgba="${DaVinciMetallic}"/></material>
   <material name="DaVinciYellow">      <color rgba="${DaVinciYellow}"/></material>
+
+  <material name="DaVinciLightBlue">   <color rgba="${DaVinciLightBlue}"/></material>
 
 </robot>
