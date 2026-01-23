@@ -166,18 +166,18 @@
                 <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
             </inertial>
         </link>
-        <link name="${prefix}camera_link">
+        <link name="${prefix}endoscope_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
-                    <mesh filename="package://dvrk_description/meshes/classic/ecm/camera.stl" />
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/endoscope.stl" />
                 </geometry>
                 <material name="DaVinciMedGray"/>
             </visual>
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
-                    <mesh filename="package://dvrk_description/meshes/classic/ecm/camera.stl" />
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/endoscope.stl" />
                 </geometry>
             </collision>
             <inertial>
@@ -272,11 +272,11 @@
             <child link="${prefix}RCM_link" />
             <axis xyz="0 0 0" />
         </joint>
-        <!-- tool tip frame -->
+        <!-- endoscope tip frame -->
         <link name="${prefix}tip_link"/>
         <joint name="${prefix}tip_joint" type="fixed">
             <origin xyz="0 0 0.37364" rpy="0 0 0" />
-            <parent link="${prefix}camera_link" />
+            <parent link="${prefix}endoscope_link" />
             <child link="${prefix}tip_link" />
             <axis xyz="0 0 0" />
         </joint>
