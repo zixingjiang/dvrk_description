@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <robot name="mtm-classic" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <!-- Example: MTM Classic -->
+    <!-- Example 03: MTM Classic -->
     <!-- This example spawns an Master Tele Manipulator (Classic generation) -->
 
     <xacro:include filename="$(find dvrk_description)/urdf/include/classic/mtm.macro.xacro"/>
@@ -9,9 +9,17 @@
     <link name="world"/>
 
     <!-- The left hand side MTM -->
-    <xacro:mtm_left prefix="" parent_link="world" xyz="0 0 0" rpy="0 0 0"/>
+    <xacro:mtm_left 
+        prefix="" 
+        parent_link="world" 
+        xyz="0 0 0" 
+        rpy="0 0 0"/>
 
     <!-- The right hand side MTM -->
-    <!-- <xacro:mtm_right prefix="" parent_link="world" xyz="0 0 0" rpy="0 0 0"/> -->
+    <!-- <xacro:mtm_right
+        prefix="" 
+        parent_link="world" 
+        xyz="0 0 0" 
+        rpy="0 0 0"/> -->
 
 </robot>

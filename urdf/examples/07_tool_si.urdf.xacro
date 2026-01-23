@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <robot name="tool-si" xmlns:xacro="https://wiki.ros.org/xacro">
 
-    <!-- Example: Tool Si -->
+    <!-- Example 07: Tool Si -->
     <!-- This example spawns the available tool for the Patient Side Manipulator (Si generation) -->
     
     <xacro:include filename="$(find dvrk_description)/urdf/include/si/tool.macro.xacro"/>
@@ -9,7 +9,11 @@
     <link name="world"/>
 
     <!-- 8mm large needle driver -->
-    <xacro:tool_lnd_8mm prefix="" parent_link="world"/>
+    <xacro:tool_lnd_8mm 
+        prefix="" 
+        parent_link="world"
+        xyz="0 0 0"
+        rpy="0 0 0"/>
 
 
 </robot>

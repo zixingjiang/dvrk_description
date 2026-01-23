@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<robot name="tool-classic" xmlns:xacro="https://wiki.ros.org/xacro">
+
+    <!-- Example 04: Tools Classic -->
+    <!-- This example spawns avaliable tools for the Patient Side Manipulator (Classic generation) -->
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/classic/tool.macro.xacro"/>
+
+    <link name="world"/>
+
+    <!-- 8mm small clip applier -->
+    <xacro:tool_sca_8mm 
+        prefix="sca_" 
+        parent_link="world" 
+        xyz="0 0 0"/>
+
+    <!-- 8mm cadiere forceps -->
+    <xacro:tool_cadiere_8mm 
+        prefix="cadiere_" 
+        parent_link="world" 
+        xyz="-0.3 0 0"/>
+
+    <!-- 5mm round tip scissors -->
+    <xacro:tool_rts_5mm 
+        prefix="rts_" 
+        parent_link="world" 
+        xyz="0.3 0 0"/>
+
+</robot>

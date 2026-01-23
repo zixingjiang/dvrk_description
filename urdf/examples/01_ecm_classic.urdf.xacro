@@ -1,16 +1,23 @@
 <?xml version="1.0" ?>
 <robot name="ecm-classic" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <!-- Example: ECM Classic -->
+    <!-- Example 01: ECM Classic -->
     <!-- This example spawns an Endoscopic Camera Manipulator (Classic generation) -->
 
     <xacro:include filename="$(find dvrk_description)/urdf/include/classic/ecm.macro.xacro"/>
 
     <link name="world"/>
-    
+
+    <!-- show_RCM
+        * If true, a red sphere will be displayed at the RCM location.
+        * If false, the sphere will be hidden (the default setting).
+    -->
+
     <xacro:ecm
         prefix=""
+        show_RCM="true"
         parent_link="world"
-        xyz="0 0 0" rpy="0 0 0"/>
+        xyz="0 0 0" 
+        rpy="0 0 0"/>
 
 </robot>

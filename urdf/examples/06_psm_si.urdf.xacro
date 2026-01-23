@@ -1,19 +1,27 @@
 <?xml version="1.0" ?>
 <robot name="psm-si" xmlns:xacro="https://wiki.ros.org/xacro">
 
-    <!-- Example: PSM Si -->
+    <!-- Example 06: PSM Si -->
     <!-- This example spawns a Patient Side Manipulator (Si generation) -->
 
     <xacro:include filename="$(find dvrk_description)/urdf/include/si/psm.macro.xacro"/>
 
     <link name="world"/>
 
+    <!-- show_RCM
+        * If true, a red sphere will be displayed at the RCM location.
+        * If false, the sphere will be hidden (the default setting).
+    -->
+
     <!-- Available tool: 
         * lnd_8mm: 8mm large needle driver, 
     -->
 
+    <!-- The Si PSM does not support color modification like Classic PSM -->
+
     <xacro:psm 
         prefix="" 
+        show_RCM="true"
         tool="lnd_8mm" 
         parent_link="world" 
         xyz="0 0 0" 
