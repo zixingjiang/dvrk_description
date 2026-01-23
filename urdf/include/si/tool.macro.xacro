@@ -83,7 +83,7 @@
                 </geometry>
                 <material name="DaVinciMetallic"/>
             </visual>
-            <collision></collision>
+            <collision>
                 <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
                 <geometry>
                     <mesh filename="package://dvrk_description/meshes/si/tool/wrist_8mm/pitch_shaft.stl"/>
@@ -98,7 +98,7 @@
                 </geometry>
                 <material name="DaVinciMetallic"/>
             </visual>
-            <collision></collision>
+            <collision>
                 <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
                 <geometry>
                     <mesh filename="package://dvrk_description/meshes/si/tool/wrist_8mm/pitch.stl"/>
