@@ -4,7 +4,7 @@
     <xacro:include filename="$(find dvrk_description)/urdf/include/colors.xacro"/>
 
     <!-- Macro for da Vinci Endoscope Camera Manipulator (ecm) -->
-    <xacro:macro name="ecm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+    <xacro:macro name="ecm" params="prefix show_RCM:='false' parent_link xyz:='0 0 0' rpy:='0 0 0'">
         <!-- ECM links -->
         <link name="${prefix}base_link">
             <visual>
@@ -254,15 +254,17 @@
         </joint>
         <!-- virtual RCM frame -->
         <link name="${prefix}RCM_link">
-            <!-- <visual>
-                <origin xyz="0 0 0" rpy="0 0 0" />
-                <geometry>
-                    <sphere radius="0.01"/>
-                </geometry>
-                <material name="">
-                    <color rgba="1 0 0 1" />
-                </material>
-            </visual> -->
+            <xacro:if value="${show_RCM}">
+                <visual>
+                    <origin xyz="0 0 0" rpy="0 0 0" />
+                    <geometry>
+                        <sphere radius="0.01"/>
+                    </geometry>
+                    <material name="">
+                        <color rgba="1 0 0 1" />
+                    </material>
+                </visual>
+            </xacro:if>
         </link>
         <joint name="${prefix}RCM_joint" type="fixed">
             <origin xyz="0.612599207482277 0 0.10159534323531" rpy="0 0 0" />

@@ -21,13 +21,19 @@
     </xacro:macro>
 
     <!-- Macro for a complete PSM with tool -->
-    <xacro:macro name="psm" params="prefix color:='DaVinciOrange' tool parent_link xyz:='0 0 0' rpy:='0 0 0'">
-        <xacro:psm_arm prefix="${prefix}" color="${color}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+    <xacro:macro name="psm" params="prefix color:='DaVinciOrange' show_RCM:='false' tool parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <xacro:psm_arm 
+            prefix="${prefix}" 
+            color="${color}" 
+            show_RCM="${show_RCM}" 
+            parent_link="${parent_link}" 
+            xyz="${xyz}" 
+            rpy="${rpy}"/>
         <xacro:psm_tool prefix="${prefix}" tool="${tool}" parent_link="${prefix}tool_mount_link"/>
     </xacro:macro>
 
     <!-- Macro for a PSM arm without tool -->
-    <xacro:macro name="psm_arm" params="prefix color:='DaVinciOrange' parent_link xyz:='0 0 0' rpy:='0 0 0'">
+    <xacro:macro name="psm_arm" params="prefix color:='DaVinciOrange' show_RCM:='false' parent_link xyz:='0 0 0' rpy:='0 0 0'">
         <!-- PSM arm links -->
         <link name="${prefix}base_link">
             <visual>
@@ -250,15 +256,17 @@
         </joint>
         <!-- virtual link indicating RCM pose -->
         <link name="${prefix}RCM_link">
-            <!-- <visual>
-                <origin xyz="0 0 0" rpy="0 0 0" />
-                <geometry>
-                    <sphere radius="0.01"/>
-                </geometry>
-                <material name="">
-                    <color rgba="1 0 0 1" />
-                </material>
-            </visual> -->
+            <xacro:if value="${show_RCM}">
+                <visual>
+                    <origin xyz="0 0 0" rpy="0 0 0" />
+                    <geometry>
+                        <sphere radius="0.01"/>
+                    </geometry>
+                    <material name="">
+                        <color rgba="1 0 0 1" />
+                    </material>
+                </visual>
+            </xacro:if>
         </link>
         <joint name="${prefix}RCM_joint" type="fixed">
             <parent link="${prefix}base_link"/>
