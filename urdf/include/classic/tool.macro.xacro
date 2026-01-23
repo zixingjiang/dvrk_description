@@ -5,23 +5,50 @@
 
     <!-- Macro for the 8mm Small Clip Applier (sca) tool -->
     <xacro:macro name="tool_sca_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
-        <xacro:tool_shaft prefix="${prefix}" diameter="8mm" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
-        <xacro:tool_wrist_8mm prefix="${prefix}" parent_link="${prefix}tool_wrist_mount_link"/>
-        <xacro:tool_gripper_sca_8mm prefix="${prefix}" parent_link="${prefix}tool_gripper_mount_link"/>
+        <xacro:tool_shaft 
+            prefix="${prefix}" 
+            diameter="8mm" 
+            parent_link="${parent_link}" 
+            xyz="${xyz}" 
+            rpy="${rpy}"/>
+        <xacro:tool_wrist_8mm 
+            prefix="${prefix}" 
+            parent_link="${prefix}tool_wrist_mount_link"/>
+        <xacro:tool_gripper_sca_8mm 
+            prefix="${prefix}" 
+            parent_link="${prefix}tool_gripper_mount_link"/>
     </xacro:macro>
 
     <!-- Macro for the 8mm Cadiere Forceps (cadiere) tool -->
     <xacro:macro name="tool_cadiere_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
-        <xacro:tool_shaft prefix="${prefix}" diameter="8mm" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
-        <xacro:tool_wrist_8mm prefix="${prefix}" parent_link="${prefix}tool_wrist_mount_link"/>
-        <xacro:tool_gripper_cadiere_8mm prefix="${prefix}" parent_link="${prefix}tool_gripper_mount_link"/>
+        <xacro:tool_shaft 
+            prefix="${prefix}" 
+            diameter="8mm" 
+            parent_link="${parent_link}" 
+            xyz="${xyz}" 
+            rpy="${rpy}"/>
+        <xacro:tool_wrist_8mm 
+            prefix="${prefix}" 
+            parent_link="${prefix}tool_wrist_mount_link"/>
+        <xacro:tool_gripper_cadiere_8mm 
+            prefix="${prefix}" 
+            parent_link="${prefix}tool_gripper_mount_link"/>
     </xacro:macro>
 
     <!-- Macro for the 5mm Round Tip Scissors (rts) tool -->
     <xacro:macro name="tool_rts_5mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
-        <xacro:tool_shaft prefix="${prefix}" diameter="5mm" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
-        <xacro:tool_wrist_5mm prefix="${prefix}" parent_link="${prefix}tool_wrist_mount_link"/>
-        <xacro:tool_gripper_rts_5mm prefix="${prefix}" parent_link="${prefix}tool_gripper_mount_link"/>
+        <xacro:tool_shaft 
+            prefix="${prefix}" 
+            diameter="5mm" 
+            parent_link="${parent_link}" 
+            xyz="${xyz}" 
+            rpy="${rpy}"/>
+        <xacro:tool_wrist_5mm 
+            prefix="${prefix}" 
+            parent_link="${prefix}tool_wrist_mount_link"/>
+        <xacro:tool_gripper_rts_5mm 
+            prefix="${prefix}" 
+            parent_link="${prefix}tool_gripper_mount_link"/>
     </xacro:macro>
 
 
