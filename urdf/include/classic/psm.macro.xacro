@@ -6,7 +6,7 @@
 
     <!-- Macro for a complete PSM with tool -->
     <xacro:macro name="psm" params="prefix color:='DaVinciOrange' show_RCM:='false' tool:='sca_8mm' parent_link xyz:='0 0 0' rpy:='0 0 0'">
-        <xacro:psm_arm 
+        <xacro:psm_arm
             prefix="${prefix}" 
             color="${color}" 
             show_RCM="${show_RCM}" 
@@ -16,7 +16,7 @@
 
         <!-- 8mm Small Clip Applier -->
         <xacro:if value="${tool == 'sca_8mm'}">
-            <xacro:tool_sca_8mm 
+            <xacro:tool_sca_8mm
                 prefix="${prefix}" 
                 parent_link="${prefix}tool_mount_link"/>
         </xacro:if>
@@ -30,7 +30,7 @@
         
         <!-- 5mm Round Tip Scissors -->
         <xacro:if value="${tool == 'rts_5mm'}">
-            <xacro:tool_rts_5mm 
+            <xacro:tool_rts_5mm
                 prefix="${prefix}" 
                 parent_link="${prefix}tool_mount_link"/>
         </xacro:if> 
@@ -184,14 +184,14 @@
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
                 <geometry>
-                    <mesh filename="package://dvrk_description/meshes/classic/psm/insertion_tool_adaptor.stl" />
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/insertion.stl" />
                 </geometry>
                 <material name="${color}"/>
             </visual>
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
                 <geometry>
-                    <mesh filename="package://dvrk_description/meshes/classic/psm/insertion_tool_adaptor.stl" />
+                    <mesh filename="package://dvrk_description/meshes/classic/psm/insertion.stl" />
                 </geometry>
             </collision>
             <inertial>
