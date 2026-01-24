@@ -13,7 +13,7 @@
         * If false, the sphere will be hidden (the default setting).
     -->
 
-    <xacro:ecm
+    <xacro:ecm_classic
         prefix=""
         show_RCM="true"
         parent_link="world"

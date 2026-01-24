@@ -26,9 +26,9 @@
         * rts_5mm: 5mm round tip scissors.
     -->
 
-    <xacro:psm 
+    <xacro:psm_classic 
         prefix="" 
-        color="DavinciOrange"
+        color="DaVinciOrange"
         show_RCM="true"
         tool="sca_8mm" 
         parent_link="world" 

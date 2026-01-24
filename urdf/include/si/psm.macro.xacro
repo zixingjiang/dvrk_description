@@ -5,23 +5,23 @@
     <xacro:include filename="$(find dvrk_description)/urdf/include/si/tool.macro.xacro"/>
 
     <!-- Macro for a PSM with tool -->
-    <xacro:macro name="psm" params="prefix show_RCM:='false' tool:='lnd_8mm' parent_link xyz:='0 0 0' rpy:= '0 0 0'">
-        <xacro:psm_arm
+    <xacro:macro name="psm_si" params="prefix show_RCM:='false' tool:='lnd_8mm' parent_link xyz:='0 0 0' rpy:= '0 0 0'">
+        <xacro:psm_arm_si
             prefix='${prefix}'
             show_RCM='${show_RCM}'
             parent_link='${parent_link}'
             xyz='${xyz}'
             rpy='${rpy}'/>
         <xacro:if value="${tool == 'lnd_8mm'}">
-            <xacro:tool_lnd_8mm
+            <xacro:tool_lnd_8mm_si
                 prefix='${prefix}'
                 parent_link='${prefix}tool_mount_link'/>
         </xacro:if>
     </xacro:macro>
 
     <!-- Macro for a PSM without tool -->
-    <xacro:macro name="psm_arm" params="prefix show_RCM:='false' parent_link xyz:='0 0 0' rpy:= '0 0 0'">
-        <xacro:psm_ecm_body
+    <xacro:macro name="psm_arm_si" params="prefix show_RCM:='false' parent_link xyz:='0 0 0' rpy:= '0 0 0'">
+        <xacro:psm_ecm_body_si
             prefix='${prefix}'
             show_RCM='${show_RCM}'
             parent_link='${parent_link}'
@@ -64,7 +64,7 @@
     </xacro:macro>
 
     <!-- Macro for the PSM/ECM main structure -->
-    <xacro:macro name="psm_ecm_body" params="prefix show_RCM:='false' parent_link xyz:='0 0 0' rpy:= '0 0 0'">
+    <xacro:macro name="psm_ecm_body_si" params="prefix show_RCM:='false' parent_link xyz:='0 0 0' rpy:= '0 0 0'">
         <link name='${prefix}base_link'>
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />

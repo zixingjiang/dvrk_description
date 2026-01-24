@@ -4,7 +4,7 @@
     <xacro:include filename="$(find dvrk_description)/urdf/include/colors.xacro"/>
 
     <!-- Macro for da Vinci Endoscope Camera Manipulator (ecm) -->
-    <xacro:macro name="ecm" params="prefix show_RCM:='false' parent_link xyz:='0 0 0' rpy:='0 0 0'">
+    <xacro:macro name="ecm_classic" params="prefix show_RCM:='false' parent_link xyz:='0 0 0' rpy:='0 0 0'">
         <!-- ECM links -->
         <link name="${prefix}base_link">
             <visual>

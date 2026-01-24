@@ -5,8 +5,8 @@
     <xacro:include filename="$(find dvrk_description)/urdf/include/classic/tool.macro.xacro"/>
 
     <!-- Macro for a complete PSM with tool -->
-    <xacro:macro name="psm" params="prefix color:='DaVinciOrange' show_RCM:='false' tool:='sca_8mm' parent_link xyz:='0 0 0' rpy:='0 0 0'">
-        <xacro:psm_arm
+    <xacro:macro name="psm_classic" params="prefix color:='DaVinciOrange' show_RCM:='false' tool:='sca_8mm' parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <xacro:psm_arm_classic
             prefix="${prefix}" 
             color="${color}" 
             show_RCM="${show_RCM}" 
@@ -16,21 +16,21 @@
 
         <!-- 8mm Small Clip Applier -->
         <xacro:if value="${tool == 'sca_8mm'}">
-            <xacro:tool_sca_8mm
+            <xacro:tool_sca_8mm_classic
                 prefix="${prefix}" 
                 parent_link="${prefix}tool_mount_link"/>
         </xacro:if>
         
         <!-- 8mm Cadiere Forceps -->
         <xacro:if value="${tool == 'cadiere_8mm'}">
-            <xacro:tool_cadiere_8mm
+            <xacro:tool_cadiere_8mm_classic
                 prefix="${prefix}" 
                 parent_link="${prefix}tool_mount_link"/>    
         </xacro:if>
         
         <!-- 5mm Round Tip Scissors -->
         <xacro:if value="${tool == 'rts_5mm'}">
-            <xacro:tool_rts_5mm
+            <xacro:tool_rts_5mm_classic
                 prefix="${prefix}" 
                 parent_link="${prefix}tool_mount_link"/>
         </xacro:if> 
@@ -38,7 +38,7 @@
     </xacro:macro>
 
     <!-- Macro for a PSM arm without tool -->
-    <xacro:macro name="psm_arm" params="prefix color:='DaVinciOrange' show_RCM:='false' parent_link xyz:='0 0 0' rpy:='0 0 0'">
+    <xacro:macro name="psm_arm_classic" params="prefix color:='DaVinciOrange' show_RCM:='false' parent_link xyz:='0 0 0' rpy:='0 0 0'">
         <!-- PSM arm links -->
         <link name="${prefix}base_link">
             <visual>

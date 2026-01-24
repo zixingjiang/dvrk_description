@@ -12,7 +12,7 @@
     
     <xacro:property name="SUJ_PREFIX" value="SUJ_" />
 
-    <xacro:suj
+    <xacro:suj_si
         prefix="${SUJ_PREFIX}"
         parent_link="world"
         include_ecm="true"
@@ -22,21 +22,21 @@
         xyz="0 0 0" 
         rpy="0 0 0"/>
     
-    <xacro:ecm
+    <xacro:ecm_si
         prefix="ECM_"
         parent_link="${SUJ_PREFIX}ecm_mount_link"/>
 
-    <xacro:psm
+    <xacro:psm_si
         prefix="PSM1_"
         tool="lnd_8mm"
         parent_link="${SUJ_PREFIX}psm1_mount_link"/>
 
-    <xacro:psm
+    <xacro:psm_si
         prefix="PSM2_"
         tool="lnd_8mm"
         parent_link="${SUJ_PREFIX}psm2_mount_link"/>
 
-    <xacro:psm
+    <xacro:psm_si
         prefix="PSM3_"
         tool="lnd_8mm"
         parent_link="${SUJ_PREFIX}psm3_mount_link"/>

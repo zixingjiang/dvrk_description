@@ -4,24 +4,40 @@
     <xacro:include filename="$(find dvrk_description)/urdf/include/colors.xacro"/>
 
     <!-- Macro for the complete SUJ -->
-    <xacro:macro name='suj' params="prefix include_ecm:=false include_psm1:=false include_psm2:=false include_psm3:=false parent_link xyz:='0 0 0' rpy:='0 0 0'">
-        <xacro:suj_tower prefix="${prefix}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+    <xacro:macro name='suj_si' params="prefix include_ecm:=false include_psm1:=false include_psm2:=false include_psm3:=false parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <xacro:suj_tower_si 
+            prefix="${prefix}" 
+            parent_link="${parent_link}" 
+            xyz="${xyz}" 
+            rpy="${rpy}"/>
         <xacro:if value="${include_ecm}">
-            <xacro:suj_arm type="ecm" prefix="${prefix}ecm_" parent_link="${prefix}suj_arm_ecm_mount_link"/>
+            <xacro:suj_arm_si 
+                type="ecm" 
+                prefix="${prefix}ecm_" 
+                parent_link="${prefix}suj_arm_ecm_mount_link"/>
         </xacro:if>
         <xacro:if value="${include_psm1}">
-            <xacro:suj_arm type="psm1" prefix="${prefix}psm1_" parent_link="${prefix}suj_arm_psm1_mount_link"/>
+            <xacro:suj_arm_si 
+                type="psm1" 
+                prefix="${prefix}psm1_" 
+                parent_link="${prefix}suj_arm_psm1_mount_link"/>
         </xacro:if>
         <xacro:if value="${include_psm2}">
-            <xacro:suj_arm type="psm2" prefix="${prefix}psm2_" parent_link="${prefix}suj_arm_psm2_mount_link"/>
+            <xacro:suj_arm_si 
+                type="psm2" 
+                prefix="${prefix}psm2_" 
+                parent_link="${prefix}suj_arm_psm2_mount_link"/>
         </xacro:if>
         <xacro:if value="${include_psm3}">
-            <xacro:suj_arm type="psm3" prefix="${prefix}psm3_" parent_link="${prefix}suj_arm_psm3_mount_link"/>
+            <xacro:suj_arm_si 
+                type="psm3" 
+                prefix="${prefix}psm3_" 
+                parent_link="${prefix}suj_arm_psm3_mount_link"/>
         </xacro:if>
     </xacro:macro>
 
     <!-- Macro for the SUJ tower -->
-    <xacro:macro name='suj_tower' params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+    <xacro:macro name='suj_tower_si' params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
         <link name="${prefix}base_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
@@ -95,24 +111,36 @@
 
 
     <!-- Macro for the SUJ arm -->
-    <xacro:macro name='suj_arm' params="prefix type parent_link xyz:='0 0 0' rpy:='0 0 0'">
+    <xacro:macro name='suj_arm_si' params="prefix type parent_link xyz:='0 0 0' rpy:='0 0 0'">
         <!-- ECM -->
         <xacro:if value="${type == 'ecm'}">
-            <xacro:suj_arm_ecm prefix="${prefix}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+            <xacro:suj_arm_ecm_si 
+                prefix="${prefix}" 
+                parent_link="${parent_link}" 
+                xyz="${xyz}" 
+                rpy="${rpy}"/>
         </xacro:if>
         <!-- PSM1 or PSM2 -->
         <xacro:if value="${type == 'psm1' or type == 'psm2'}">
-            <xacro:suj_arm_psm12 prefix="${prefix}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+            <xacro:suj_arm_psm12_si 
+                prefix="${prefix}" 
+                parent_link="${parent_link}" 
+                xyz="${xyz}" 
+                rpy="${rpy}"/>
         </xacro:if>
         <!-- PSM3 -->
         <xacro:if value="${type == 'psm3'}">
-            <xacro:suj_arm_psm3 prefix="${prefix}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
+            <xacro:suj_arm_psm3_si 
+                prefix="${prefix}" 
+                parent_link="${parent_link}" 
+                xyz="${xyz}" 
+                rpy="${rpy}"/>
         </xacro:if>
     </xacro:macro>
 
 
     <!-- Macro for the SUJ arm for mounting the ECM -->
-    <xacro:macro name='suj_arm_ecm' params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+    <xacro:macro name='suj_arm_ecm_si' params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
         <link name="${prefix}lift_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
@@ -211,7 +239,7 @@
 
 
     <!-- Macro for the SUJ arm for mounting the PSM1 and PSM2 -->
-    <xacro:macro name='suj_arm_psm12' params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+    <xacro:macro name='suj_arm_psm12_si' params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
         <link name="${prefix}lift_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
@@ -309,7 +337,7 @@
     </xacro:macro>
 
     <!-- Macro for the SUJ arm for mounting the PSM3 -->
-    <xacro:macro name='suj_arm_psm3' params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+    <xacro:macro name='suj_arm_psm3_si' params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
         <link name="${prefix}lift_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />

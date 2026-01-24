@@ -9,7 +9,7 @@
     <link name="world"/>
 
     <!-- 8mm large needle driver -->
-    <xacro:tool_lnd_8mm 
+    <xacro:tool_lnd_8mm_si 
         prefix="" 
         parent_link="world"
         xyz="0 0 0"

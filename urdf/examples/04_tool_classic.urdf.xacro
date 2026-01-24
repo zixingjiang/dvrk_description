@@ -9,21 +9,24 @@
     <link name="world"/>
 
     <!-- 8mm small clip applier -->
-    <xacro:tool_sca_8mm 
+    <xacro:tool_sca_8mm_classic 
         prefix="sca_" 
         parent_link="world" 
-        xyz="0 0 0"/>
+        xyz="0 0 0"
+        rpy="0 0 0"/>
 
     <!-- 8mm cadiere forceps -->
-    <xacro:tool_cadiere_8mm 
+    <xacro:tool_cadiere_8mm_classic 
         prefix="cadiere_" 
         parent_link="world" 
-        xyz="-0.3 0 0"/>
+        xyz="-0.3 0 0"
+        rpy="0 0 0"/>
 
     <!-- 5mm round tip scissors -->
-    <xacro:tool_rts_5mm 
+    <xacro:tool_rts_5mm_classic 
         prefix="rts_" 
         parent_link="world" 
-        xyz="0.3 0 0"/>
+        xyz="0.3 0 0"
+        rpy="0 0 0"/>
 
 </robot>

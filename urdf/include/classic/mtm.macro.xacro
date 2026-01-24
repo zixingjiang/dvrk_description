@@ -5,34 +5,52 @@
 
 
     <!-- Macro for the surgeon console -->
-    <xacro:macro name="surgeon_console" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
+    <xacro:macro name="surgeon_console_classic" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
         <link name="${prefix}base_link"/>
         <joint name="${prefix}base_joint" type="fixed">
             <parent link="${parent_link}"/>
             <child link="${prefix}base_link"/>
             <origin xyz="${xyz}" rpy="${rpy}"/>
         </joint>
-        <xacro:mtm_left prefix="${prefix}MTML_" parent_link="${prefix}base_link" xyz="0 -0.25 1" />
-        <xacro:mtm_right prefix="${prefix}MTMR_" parent_link="${prefix}base_link" xyz="0 0.25 1" />
+        <xacro:mtm_left_classic 
+            prefix="${prefix}MTML_" 
+            parent_link="${prefix}base_link" 
+            xyz="0 -0.25 1" />
+        <xacro:mtm_right_classic 
+            prefix="${prefix}MTMR_" 
+            parent_link="${prefix}base_link" 
+            xyz="0 0.25 1" />
     </xacro:macro>
 
 
     <!-- Macro for a complete MTM with the left wrist -->
-    <xacro:macro name="mtm_left" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
-        <xacro:mtm_arm prefix="${prefix}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
-        <xacro:mtm_wrist_left prefix="${prefix}" parent_link="${prefix}wrist_mount_link"/>
+    <xacro:macro name="mtm_left_classic" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
+        <xacro:mtm_arm_classic 
+            prefix="${prefix}" 
+            parent_link="${parent_link}" 
+            xyz="${xyz}" 
+            rpy="${rpy}"/>
+        <xacro:mtm_wrist_left_classic
+            prefix="${prefix}" 
+            parent_link="${prefix}wrist_mount_link"/>
     </xacro:macro>
 
 
     <!-- Macro for a complete MTM with the right wrist -->
-    <xacro:macro name="mtm_right" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
-        <xacro:mtm_arm prefix="${prefix}" parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}"/>
-        <xacro:mtm_wrist_right prefix="${prefix}" parent_link="${prefix}wrist_mount_link"/>
+    <xacro:macro name="mtm_right_classic" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
+        <xacro:mtm_arm_classic 
+            prefix="${prefix}" 
+            parent_link="${parent_link}" 
+            xyz="${xyz}" 
+            rpy="${rpy}"/>
+        <xacro:mtm_wrist_right_classic 
+            prefix="${prefix}" 
+            parent_link="${prefix}wrist_mount_link"/>
     </xacro:macro>
 
 
     <!-- Macro for MTM arm without wrist -->
-    <xacro:macro name="mtm_arm" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
+    <xacro:macro name="mtm_arm_classic" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
         <!-- MTM arm links -->
         <link name="${prefix}base_link">
             <visual>
@@ -204,7 +222,7 @@
 
 
     <!-- Macro for MTM left wrist -->
-    <xacro:macro name="mtm_wrist_left" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
+    <xacro:macro name="mtm_wrist_left_classic" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
         <!-- MTM wrist left links -->
         <link name="${prefix}wrist_yaw1_link">
             <visual>
@@ -317,7 +335,7 @@
 
 
     <!-- Macro for MTM right wrist -->
-    <xacro:macro name="mtm_wrist_right" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
+    <xacro:macro name="mtm_wrist_right_classic" params="prefix parent_link xyz:='0.0 0.0 0.0' rpy:='0.0 0.0 0.0'">
         <!-- MTM wrist right links -->
         <link name="${prefix}wrist_yaw1_link">
             <visual>

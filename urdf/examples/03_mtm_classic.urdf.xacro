@@ -9,14 +9,14 @@
     <link name="world"/>
 
     <!-- The left hand side MTM -->
-    <xacro:mtm_left 
+    <xacro:mtm_left_classic 
         prefix="" 
         parent_link="world" 
         xyz="0 0 0" 
         rpy="0 0 0"/>
 
     <!-- The right hand side MTM -->
-    <!-- <xacro:mtm_right
+    <!-- <xacro:mtm_right_classic
         prefix="" 
         parent_link="world" 
         xyz="0 0 0" 

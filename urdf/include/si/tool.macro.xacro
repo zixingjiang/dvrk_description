@@ -4,22 +4,22 @@
     <xacro:include filename="$(find dvrk_description)/urdf/include/colors.xacro"/>
 
     <!-- Macro for 8mm large needle driver -->
-    <xacro:macro name="tool_lnd_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
-        <xacro:tool_shaft 
+    <xacro:macro name="tool_lnd_8mm_si" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <xacro:tool_shaft_si 
             prefix="${prefix}" 
             parent_link="${parent_link}" 
             xyz="${xyz}" 
             rpy="${rpy}"/>
-        <xacro:tool_wrist_8mm 
+        <xacro:tool_wrist_8mm_si 
             prefix="${prefix}" 
             parent_link="${prefix}tool_wrist_mount_link"/>
-        <xacro:tool_gripper_lnd_8mm 
+        <xacro:tool_gripper_lnd_8mm_si 
             prefix="${prefix}" 
             parent_link="${prefix}tool_gripper_mount_link"/>                                                                                                                                                                                                                  
     </xacro:macro>
 
     <!-- Macro for tool shaft -->
-    <xacro:macro name="tool_shaft" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+    <xacro:macro name="tool_shaft_si" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
         <link name="${prefix}tool_base_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
@@ -58,7 +58,7 @@
     </xacro:macro>
 
     <!-- Macro for tool wrist (8mm) -->
-    <xacro:macro name="tool_wrist_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+    <xacro:macro name="tool_wrist_8mm_si" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
         <!-- 8mm wrist links -->
         <link name="${prefix}tool_wrist_roll_link">
             <visual>
@@ -157,7 +157,7 @@
     </xacro:macro>
 
     <!-- Macro for Large Needle Driver (lnd) gripper (8mm) -->
-    <xacro:macro name="tool_gripper_lnd_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+    <xacro:macro name="tool_gripper_lnd_8mm_si" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
         <!-- lnd gripper links -->
         <link name="${prefix}tool_gripper_root_link"/>
         <link name="${prefix}tool_gripper1_link">

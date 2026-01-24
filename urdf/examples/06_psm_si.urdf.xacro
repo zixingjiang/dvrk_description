@@ -19,7 +19,7 @@
 
     <!-- The Si PSM does not support color modification like Classic PSM -->
 
-    <xacro:psm 
+    <xacro:psm_si 
         prefix="" 
         show_RCM="true"
         tool="lnd_8mm" 

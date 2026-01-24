@@ -12,7 +12,7 @@
 
     <xacro:property name="SUJ_PREFIX" value="SUJ_" />
 
-    <xacro:suj 
+    <xacro:suj_classic 
         prefix="${SUJ_PREFIX}" 
         parent_link="world" 
         include_ecm="true" 
@@ -22,23 +22,23 @@
         xyz="0 0 0" 
         rpy="0 0 0"/>
 
-    <xacro:ecm 
+    <xacro:ecm_classic 
         prefix="ECM_" 
         parent_link="${SUJ_PREFIX}ecm_mount_link"/>
 
-    <xacro:psm 
+    <xacro:psm_classic 
         prefix="PSM1_" 
         tool="rts_5mm" 
         color="DaVinciOrange"
         parent_link="${SUJ_PREFIX}psm1_mount_link"/>
 
-    <xacro:psm 
+    <xacro:psm_classic 
         prefix="PSM2_" 
         tool="cadiere_8mm" 
         color="DaVinciLightBlue"
         parent_link="${SUJ_PREFIX}psm2_mount_link"/>  
     
-    <xacro:psm 
+    <xacro:psm_classic 
         prefix="PSM3_" 
         tool="sca_8mm" 
         color="DaVinciRed"
