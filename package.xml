@@ -3,7 +3,9 @@
 <package format="3">
     <name>dvrk_description</name>
     <version>0.0.0</version>
-    <description>Unofficial URDF description for da Vinci Research Kit (dVRK) robots</description>
-    <maintainer email="zxjiang@surgery.cuhk.edu.hk">zixingjiang</maintainer>
+    <description>Unofficial URDF description for the da Vinci Research Kit (dVRK) surgical robots</description>
+    <url type="repository">https://github.com/zixingjiang/dvrk_description</url>
     <license>MIT</license>
+    <maintainer email="zxjiang@surgery.cuhk.edu.hk">Zixing Jiang</maintainer>
+    <author email="zxjiang@surgery.cuhk.edu.hk">Zixing Jiang</author>
 </package>
