@@ -146,18 +146,18 @@
                 <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
             </inertial>
         </link>
-        <link name="${prefix}camera_mount_link">
+        <link name="${prefix}endoscope_mount_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
-                    <mesh filename="package://dvrk_description/meshes/classic/ecm/insertion_camera_adaptor.stl" />
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/insertion.stl" />
                 </geometry>
                 <material name="DaVinciDarkGray"/>
             </visual>
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
-                    <mesh filename="package://dvrk_description/meshes/classic/ecm/insertion_camera_adaptor.stl" />
+                    <mesh filename="package://dvrk_description/meshes/classic/ecm/insertion.stl" />
                 </geometry>
             </collision>
             <inertial>
@@ -168,14 +168,14 @@
         </link>
         <link name="${prefix}endoscope_link">
             <visual>
-                <origin xyz="0 0 0" rpy="0 0 0" />
+                <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
                 <geometry>
                     <mesh filename="package://dvrk_description/meshes/classic/ecm/endoscope.stl" />
                 </geometry>
                 <material name="DaVinciMedGray"/>
             </visual>
             <collision>
-                <origin xyz="0 0 0" rpy="0 0 0" />
+                <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
                 <geometry>
                     <mesh filename="package://dvrk_description/meshes/classic/ecm/endoscope.stl" />
                 </geometry>
@@ -241,14 +241,14 @@
         <joint name="${prefix}insertion_joint" type="prismatic">
             <origin xyz="0.042 -0.086143 0" rpy="${-pi/2} 0 0" />
             <parent link="${prefix}pitch_parallel_end_link" />
-            <child link="${prefix}camera_mount_link" />
+            <child link="${prefix}endoscope_mount_link" />
             <axis xyz="0 0 1" />
             <limit lower="0" upper="0.254193" effort="50" velocity="100" />
         </joint>
-        <joint name="${prefix}camera_roll_joint" type="revolute">
-            <origin xyz="0.0609999999999996 0 0" rpy="0 0 ${pi}" />
-            <parent link="${prefix}camera_mount_link" />
-            <child link="${prefix}camera_link" />
+        <joint name="${prefix}endoscope_roll_joint" type="revolute">
+            <origin xyz="0.0609999999999996 0 0" rpy="0 0 ${pi/2}" />
+            <parent link="${prefix}endoscope_mount_link" />
+            <child link="${prefix}endoscope_link" />
             <axis xyz="0 0 1" />
             <limit lower="${-pi/2}" upper="${pi/2}" effort="1000" velocity="10" />
         </joint>
