@@ -3,3 +3,7 @@
 
 # ignore compiled URDF
 *.urdf
+
+urdf/custom
+
+TODO.md
