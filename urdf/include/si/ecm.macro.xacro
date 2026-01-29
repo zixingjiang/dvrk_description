@@ -35,7 +35,7 @@
         </link>
         <link name="${prefix}endoscope_link">
             <visual>
-                <origin xyz="0 0 0" rpy="0 0 0" />
+                <origin xyz="0 0 0" rpy="0 0 ${pi}" />
                 <geometry>
                     <mesh filename="package://dvrk_description/meshes/si/psm_ecm/endoscope.stl"/>
                 </geometry>
@@ -52,9 +52,16 @@
         <joint name='${prefix}endoscope_joint' type='revolute'>
             <parent link='${prefix}insertion_link'/>
             <child link='${prefix}endoscope_link'/>
-            <origin xyz='0 ${-0.05591} 0' rpy='0 0 ${pi}'/>
+            <origin xyz='0 ${-0.05591} 0' rpy='0 0 0'/>
             <axis xyz='0 0 1'/>
             <limit lower='${-pi}' upper='${pi}' effort='10' velocity='1.0'/>
+        </joint>
+        <!-- End-effector link -->
+        <link name="${prefix}ee_link"/>
+        <joint name="${prefix}ee_joint" type="fixed">
+            <parent link="${prefix}endoscope_link"/>
+            <child link="${prefix}ee_link"/>
+            <origin xyz="0 0 0.3976" rpy="0 0 0"/>
         </joint>
     </xacro:macro>
 

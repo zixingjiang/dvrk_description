@@ -273,11 +273,11 @@
             <axis xyz="0 0 0" />
         </joint>
         <!-- endoscope tip frame -->
-        <link name="${prefix}tip_link"/>
-        <joint name="${prefix}tip_joint" type="fixed">
+        <link name="${prefix}ee_link"/>
+        <joint name="${prefix}ee_joint" type="fixed">
             <origin xyz="0 0 0.37364" rpy="0 0 0" />
             <parent link="${prefix}endoscope_link" />
-            <child link="${prefix}tip_link" />
+            <child link="${prefix}ee_link" />
             <axis xyz="0 0 0" />
         </joint>
     </xacro:macro>

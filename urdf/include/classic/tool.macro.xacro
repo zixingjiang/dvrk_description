@@ -331,6 +331,13 @@
             <mimic joint="${prefix}tool_jaw_joint" multiplier="1"/>
             <limit lower="0" upper="1" effort="1000" velocity="10" />
         </joint>
+        <!-- End-effector link -->
+        <link name="${prefix}tool_ee_link"/>
+        <joint name="${prefix}tool_ee_joint" type="fixed">
+            <parent link="${prefix}tool_gripper_root_link"/>
+            <child link="${prefix}tool_ee_link"/>
+            <origin xyz="0.005 0 0" rpy="${pi/2} 0 ${pi/2}"/>
+        </joint>
     </xacro:macro>
 
     <!-- Macro for Cadiere Forceps (cadiere) gripper (8mm) -->
@@ -388,6 +395,13 @@
             <mimic joint="${prefix}tool_jaw_joint" multiplier="1"/>
             <limit lower="0" upper="1" effort="1000" velocity="10" />
         </joint>
+        <!-- End-effector link -->
+        <link name="${prefix}tool_ee_link"/>
+        <joint name="${prefix}tool_ee_joint" type="fixed">
+            <parent link="${prefix}tool_gripper_root_link"/>
+            <child link="${prefix}tool_ee_link"/>
+            <origin xyz="0.005 0 0" rpy="${pi/2} 0 ${pi/2}"/>
+        </joint>
     </xacro:macro>
 
     <!-- Macro for Round Tip Scissors (rts) gripper (5mm) -->
@@ -444,6 +458,13 @@
             <axis xyz="0 0 1" />
             <mimic joint="${prefix}tool_jaw_joint" multiplier="1"/>
             <limit lower="0" upper="1" effort="1000" velocity="10" />
+        </joint>
+        <!-- End-effector link -->
+        <link name="${prefix}tool_ee_link"/>
+        <joint name="${prefix}tool_ee_joint" type="fixed">
+            <parent link="${prefix}tool_gripper_root_link"/>
+            <child link="${prefix}tool_ee_link"/>
+            <origin xyz="0.005 0 0" rpy="${pi/2} ${pi} 0"/>
         </joint>
     </xacro:macro>
 
