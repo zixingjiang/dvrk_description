@@ -1,6 +1,6 @@
-# dVRK Description
 ![banner](images/banner.png)
 
+# dVRK Description
 This repository provides **unofficial** URDF description files and meshes for the [da Vinci Research Kit (dVRK)](https://github.com/jhu-dvrk) surgical robots.
 
 Compared with the [official dVRK description](https://github.com/jhu-dvrk/dvrk_model) package:
@@ -49,9 +49,9 @@ This package follows the [REP-103](http://www.ros.org/reps/rep-0103.html)  conve
 - Base frame: X forward, Y left, Z up
 - End‑effector frame: Z forward, X right, Y down
 
-See the reference image below:
+For RCM frame, its orientation matches that of the base frame. See the reference image below:
 
-<img src="images/frames.png" width="60%">
+<div align="center"><img src="images/frames.png" width="70%"></div>
 
 All joint axes—revolute and prismatic—are aligned with the Z‑axis. The positive direction corresponds to positive rotation following the right‑hand rule or positive translation along the Z‑axis.
 
@@ -82,5 +82,8 @@ You can then use the generated URDF file in your applications.
 This package incorporates resources from the following repositories: 
 - [dvrk_model](https://github.com/jhu-dvrk/dvrk_model) by the Johns Hopkins University dVRK team.
 - [dvrk_env](https://github.com/WPI-AIM/dvrk_env) by the WPI-AIM lab.
+
+In this README, the URDF is visualized using [Viser](https://github.com/nerfstudio-project/viser).
+
 ## License
 This package is released under the [MIT License](LICENSE).
