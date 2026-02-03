@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<robot name="psm-lnd" xmlns:xacro="https://wiki.ros.org/xacro">
+
+    <!-- PSM Classic with Si Large Needle Driver --> 
+
+    <!-- It's also possible to mount Si tool on Classic PSM!
+        * We only need to define a new macro for the new tool that
+          combines the Classic tool shaft with the Si tool wrist and gripper.
+        * Here we define a new macro `tool_lnd_8mm` that does this.
+    -->
+
+    <!-- If you want reverse combination (Classic tool on Si PSM), what you need to do is similar! -->
+
+    <xacro:include filename="$(find dvrk_description)/urdf/include/classic/psm.macro.xacro"/>
+    <xacro:include filename="$(find dvrk_description)/urdf/include/classic/tool.macro.xacro"/>
+    <xacro:include filename="$(find dvrk_description)/urdf/include/si/tool.macro.xacro"/>
+
+    <xacro:macro name="tool_lnd_8mm" params="prefix parent_link xyz:='0 0 0' rpy:='0 0 0'">
+        <!-- Classic tool shaft -->
+        <xacro:tool_shaft_classic 
+            prefix="${prefix}" 
+            diameter="8mm" 
+            parent_link="${parent_link}" 
+            xyz="${xyz}" 
+            rpy="${rpy}"/>
+        <!-- Si tool wrist -->
+        <xacro:tool_wrist_8mm_si
+            prefix="${prefix}" 
+            parent_link="${prefix}tool_wrist_mount_link"/>
+        <!-- Si tool gripper -->
+        <xacro:tool_gripper_lnd_8mm_si
+            prefix="${prefix}" 
+            parent_link="${prefix}tool_gripper_mount_link"/>
+    </xacro:macro>
+
+
+    <link name="world"/>
+
+    <!-- Classic PSM -->
+    <xacro:psm_arm_classic
+        prefix="" 
+        parent_link="world"/>
+    <!-- Si Large Needle Driver tool mounted on Classic PSM -->
+    <xacro:tool_lnd_8mm 
+        prefix="" 
+        parent_link="tool_mount_link"/>
+
+</robot>
