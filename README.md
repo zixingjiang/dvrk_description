@@ -78,6 +78,8 @@ It is recommended to browse the [examples](urdf/examples) first to understand ho
 
 You can then use the generated URDF file in your applications.
 
+**Note:** If you want to convert URDF to USD for use in Isaac Lab, please ensure that the [`merge_fixed_joints`](https://isaac-sim.github.io/IsaacLab/main/source/how-to/import_new_asset.html#using-urdf-importer) option is turned off. Otherwise, virtual links in the URDF, such as RCM frames and end-effector frames, will be excluded from the generated USD.
+
 ## Acknowledgements
 This package incorporates resources from the following repositories: 
 - [dvrk_model](https://github.com/jhu-dvrk/dvrk_model) by the Johns Hopkins University dVRK team.
