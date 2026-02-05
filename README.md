@@ -10,7 +10,8 @@ Compared with the [official dVRK description](https://github.com/jhu-dvrk/dvrk_m
 - It is **[REP‑103 compliant](#coordinate-frames)**.
 - It **fixes several issues** present in the official description, including misalgned meshes and incorrect tool names.
 
-Note that kinematics and dynamics parameters in this package are guesstimated and may not be accurate (especially inertials). Use at your own discretion.
+> [!WARNING]
+> Kinematics and dynamics parameters in this package are guesstimated and may not be accurate (especially inertials). Use at your own discretion!
 
 ## Contents
 
@@ -78,7 +79,8 @@ It is recommended to browse the [examples](urdf/examples) first to understand ho
 
 You can then use the generated URDF file in your applications.
 
-**Note:** If you want to convert URDF to USD for use in Isaac Lab, please ensure that the [`merge_fixed_joints`](https://isaac-sim.github.io/IsaacLab/main/source/how-to/import_new_asset.html#using-urdf-importer) option is turned off. Otherwise, virtual links in the URDF, such as RCM frames and end-effector frames, will be excluded from the generated USD.
+> [!IMPORTANT]
+> If you want to convert URDF to USD for use in Isaac Lab, please ensure that the [`merge_fixed_joints`](https://isaac-sim.github.io/IsaacLab/main/source/how-to/import_new_asset.html#using-urdf-importer) option is turned off. Otherwise, virtual links in the URDF, such as RCM frames and end-effector frames, will be excluded from the generated USD.
 
 ## Acknowledgements
 This package incorporates resources from the following repositories: 
